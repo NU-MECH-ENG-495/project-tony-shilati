@@ -1,1 +1,2 @@
-# project-tony-shilati
+# ME 495 Final Project
+Author: Tony Shilati
