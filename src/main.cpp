@@ -23,11 +23,6 @@ int main()
                             sf::ContextSettings{0 /* depthBits */, 8 /* stencilBits */});
     window.setVerticalSyncEnabled(true);
 
-    sf::RectangleShape red({500, 50});
-    red.setFillColor(sf::Color::Red);
-    red.setPosition({270, 70});
-    red.setRotation(sf::degrees(60));
-
     sf::RectangleShape green({500, 50});
     green.setFillColor(sf::Color::Green);
     green.setPosition({370, 100});
@@ -37,6 +32,16 @@ int main()
     blue.setFillColor(sf::Color::Blue);
     blue.setPosition({550, 470});
     blue.setRotation(sf::degrees(180));
+
+    sf::RectangleShape red({50, 50});
+    red.setFillColor(sf::Color::Red);
+    red.setPosition({250, 250});
+    red.setRotation(sf::degrees(270));
+
+    sf::CircleShape yellow(50);
+    yellow.setFillColor(sf::Color::Yellow);
+    yellow.setPosition({250, 250});
+    yellow.setRotation(sf::degrees(0));
 
     while (window.isOpen())
     {
@@ -115,14 +120,14 @@ int main()
         // We draw the first rectangle with comparison set to always so that it will definitely draw and update (Replace)
         // the stencil buffer values of its pixels to the specified reference value.
         window.draw(red,
-                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 3, ~0u, false});
+                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 4, ~0u, false});
 
         // Just like the first, we draw the second rectangle with comparison set to always so that it will definitely
         // draw and update (Replace) the stencil buffer values of its pixels to the specified reference value.
         // In the case of pixels overlapping the first rectangle, because we specify Always as the comparison, it is
         // as if we are drawing using the painter's algorithm, i.e. newer pixels overwrite older pixels.
         window.draw(green,
-                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 1, ~0u, false});
+                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 2, ~0u, false});
 
         // Now comes the magic. We want to draw the third rectangle so it is behind i.e. does not overwrite pixels of the
         // first rectangle but in front of i.e. overwrites pixels of the second rectangle. We already set the reference
@@ -132,7 +137,11 @@ int main()
         // second rectangle. The stencil update operation for this draw operation is not significant in any way since this is
         // the last draw call in the frame.
         window.draw(blue,
-                    sf::StencilMode{sf::StencilComparison::Greater, sf::StencilUpdateOperation::Replace, 2, ~0u, false});
+                    sf::StencilMode{sf::StencilComparison::Greater, sf::StencilUpdateOperation::Replace, 3, ~0u, false});
+
+        // Draw the yellow circle
+        window.draw(yellow,
+                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 1, ~0u, false});
 
         // Display things on screen
         window.display();
