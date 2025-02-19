@@ -16,3 +16,12 @@ My first step in this project will be identifying existing libraries that my lib
 - SFML: C++ cross platform graphics library
 - Eigen: C++ linear algenra library
 - BioIK: C++ inverse kinematics library
+
+## Branches
+
+### render_finger
+The puropse of this branch is to use SFML to render a robot finger and to create an interface for updating the figure. The interface will accept joint angles.
+
+## finger_dynamics
+The purpose of this branch is to calculate the inverse kinematics of the finger given an end effector pose and to calculate the tendon force given an external wrench on the finger.
+The inversekinematics will either use a custom newton-raphson optimization or an optimizer from an existing library.
