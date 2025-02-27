@@ -28,8 +28,9 @@ FetchContent_MakeAvailable(SFML)
 # Find Eigen3
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
-# Add the executable
-add_executable(main src/main.cpp)
+# Add the executables
+add_executable(main src/main.cpp src/finger_model.cpp)
+add_executable(eigen_example src/eigen_example.cpp)
 
 # Link the necessary SFML and Eigen libraries
 target_compile_features(main PRIVATE cxx_std_17)
@@ -38,6 +39,18 @@ target_link_libraries(main PRIVATE
     SFML::Window
     SFML::System
     Eigen3::Eigen
+)
+
+target_compile_features(eigen_example PRIVATE cxx_std_17)
+target_link_libraries(eigen_example PRIVATE
+    Eigen3::Eigen
+)
+
+# Link SFML to the project library
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    SFML::Graphics
+    SFML::Window
+    SFML::System
 )
 
 # Enable testing

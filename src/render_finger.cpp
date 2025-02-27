@@ -71,5 +71,5 @@ void render_finger()
         window.display();
     }
 
-    return EXIT_SUCCESS;
+    // return EXIT_SUCCESS;
 }
