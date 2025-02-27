@@ -1,5 +1,5 @@
 #include <iostream>
-#include <eigen.h>
+#include <Eigen/Dense>
 #include <vector>
 
 /*
@@ -24,7 +24,7 @@ namespace fm {
         Eigen::MatrixXd get_finger_space_jacobian();
         Eigen::MatrixXd get_finger_body_jacobian();
         Eigen::MatrixXd get_tendon_routing_matrix();
-        void get_link_lengths();
+        std::vector<double> get_link_lengths();
 
     private:
         Eigen::MatrixXd finger_space_jacobian;
