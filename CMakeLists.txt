@@ -1,10 +1,47 @@
-cmake_minimum_required(VERSION 3.10)
-project(FingerModel)
+cmake_minimum_required(VERSION 3.28)
+project(ME_495_Final_Project VERSION 1.0)
 
-# Add the path to the Eigen library
-set(EIGEN3_INCLUDE_DIR "/opt/homebrew/include/eigen3")
+# Specify C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Include the Eigen directory
-include_directories(${EIGEN3_INCLUDE_DIR})
+# Add source files
+add_library(${PROJECT_NAME}
+    src/render_finger.cpp
+)
 
-add_executable(finger_model src/finger_model.cpp src/main.cpp)
+# Add include directories
+target_include_directories(${PROJECT_NAME} PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+)
+
+# Fetch SFML 3.0
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.0.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(SFML)
+
+# Find Eigen3
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+
+# Add the executable
+add_executable(main src/main.cpp)
+
+# Link the necessary SFML and Eigen libraries
+target_compile_features(main PRIVATE cxx_std_17)
+target_link_libraries(main PRIVATE
+    SFML::Graphics
+    SFML::Window
+    SFML::System
+    Eigen3::Eigen
+)
+
+# Enable testing
+enable_testing()
+
+# Add the tests subdirectory (if you have tests)
+add_subdirectory(tests)

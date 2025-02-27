@@ -65,6 +65,36 @@ CMAKE_BINARY_DIR = /Users/tonyshilati/ME495_C++/Final_Project/project-tony-shila
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cpack --config ./CPackSourceConfig.cmake /Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -84,6 +114,51 @@ rebuild_cache:
 # Special rule for the target rebuild_cache
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\" \"devel\" \"headers\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/opt/homebrew/Cellar/cmake/3.30.3/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -117,41 +192,234 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named finger_model
+# Target rules for targets named ME_495_Final_Project
 
 # Build rule for target.
-finger_model: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 finger_model
-.PHONY : finger_model
+ME_495_Final_Project: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ME_495_Final_Project
+.PHONY : ME_495_Final_Project
 
 # fast build rule for target.
-finger_model/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/finger_model.dir/build.make CMakeFiles/finger_model.dir/build
-.PHONY : finger_model/fast
+ME_495_Final_Project/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ME_495_Final_Project.dir/build.make CMakeFiles/ME_495_Final_Project.dir/build
+.PHONY : ME_495_Final_Project/fast
 
-src/finger_model.o: src/finger_model.cpp.o
-.PHONY : src/finger_model.o
+#=============================================================================
+# Target rules for targets named main
+
+# Build rule for target.
+main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
+.PHONY : main
+
+# fast build rule for target.
+main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
+
+#=============================================================================
+# Target rules for targets named sfml-system
+
+# Build rule for target.
+sfml-system: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-system
+.PHONY : sfml-system
+
+# fast build rule for target.
+sfml-system/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sfml-build/src/SFML/System/CMakeFiles/sfml-system.dir/build.make _deps/sfml-build/src/SFML/System/CMakeFiles/sfml-system.dir/build
+.PHONY : sfml-system/fast
+
+#=============================================================================
+# Target rules for targets named sfml-window
+
+# Build rule for target.
+sfml-window: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-window
+.PHONY : sfml-window
+
+# fast build rule for target.
+sfml-window/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sfml-build/src/SFML/Window/CMakeFiles/sfml-window.dir/build.make _deps/sfml-build/src/SFML/Window/CMakeFiles/sfml-window.dir/build
+.PHONY : sfml-window/fast
+
+#=============================================================================
+# Target rules for targets named sfml-network
+
+# Build rule for target.
+sfml-network: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-network
+.PHONY : sfml-network
+
+# fast build rule for target.
+sfml-network/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sfml-build/src/SFML/Network/CMakeFiles/sfml-network.dir/build.make _deps/sfml-build/src/SFML/Network/CMakeFiles/sfml-network.dir/build
+.PHONY : sfml-network/fast
+
+#=============================================================================
+# Target rules for targets named sfml-graphics
+
+# Build rule for target.
+sfml-graphics: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-graphics
+.PHONY : sfml-graphics
+
+# fast build rule for target.
+sfml-graphics/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sfml-build/src/SFML/Graphics/CMakeFiles/sfml-graphics.dir/build.make _deps/sfml-build/src/SFML/Graphics/CMakeFiles/sfml-graphics.dir/build
+.PHONY : sfml-graphics/fast
+
+#=============================================================================
+# Target rules for targets named freetype
+
+# Build rule for target.
+freetype: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 freetype
+.PHONY : freetype
+
+# fast build rule for target.
+freetype/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/freetype-build/CMakeFiles/freetype.dir/build.make _deps/freetype-build/CMakeFiles/freetype.dir/build
+.PHONY : freetype/fast
+
+#=============================================================================
+# Target rules for targets named sfml-audio
+
+# Build rule for target.
+sfml-audio: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-audio
+.PHONY : sfml-audio
+
+# fast build rule for target.
+sfml-audio/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sfml-build/src/SFML/Audio/CMakeFiles/sfml-audio.dir/build.make _deps/sfml-build/src/SFML/Audio/CMakeFiles/sfml-audio.dir/build
+.PHONY : sfml-audio/fast
+
+#=============================================================================
+# Target rules for targets named ogg
+
+# Build rule for target.
+ogg: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ogg
+.PHONY : ogg
+
+# fast build rule for target.
+ogg/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/ogg-build/CMakeFiles/ogg.dir/build.make _deps/ogg-build/CMakeFiles/ogg.dir/build
+.PHONY : ogg/fast
+
+#=============================================================================
+# Target rules for targets named FLAC
+
+# Build rule for target.
+FLAC: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FLAC
+.PHONY : FLAC
+
+# fast build rule for target.
+FLAC/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/flac-build/src/libFLAC/CMakeFiles/FLAC.dir/build.make _deps/flac-build/src/libFLAC/CMakeFiles/FLAC.dir/build
+.PHONY : FLAC/fast
+
+#=============================================================================
+# Target rules for targets named benchmark_residual
+
+# Build rule for target.
+benchmark_residual: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 benchmark_residual
+.PHONY : benchmark_residual
+
+# fast build rule for target.
+benchmark_residual/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/flac-build/microbench/CMakeFiles/benchmark_residual.dir/build.make _deps/flac-build/microbench/CMakeFiles/benchmark_residual.dir/build
+.PHONY : benchmark_residual/fast
+
+#=============================================================================
+# Target rules for targets named vorbis
+
+# Build rule for target.
+vorbis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 vorbis
+.PHONY : vorbis
+
+# fast build rule for target.
+vorbis/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/vorbis-build/lib/CMakeFiles/vorbis.dir/build.make _deps/vorbis-build/lib/CMakeFiles/vorbis.dir/build
+.PHONY : vorbis/fast
+
+#=============================================================================
+# Target rules for targets named vorbisenc
+
+# Build rule for target.
+vorbisenc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 vorbisenc
+.PHONY : vorbisenc
+
+# fast build rule for target.
+vorbisenc/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/vorbis-build/lib/CMakeFiles/vorbisenc.dir/build.make _deps/vorbis-build/lib/CMakeFiles/vorbisenc.dir/build
+.PHONY : vorbisenc/fast
+
+#=============================================================================
+# Target rules for targets named vorbisfile
+
+# Build rule for target.
+vorbisfile: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 vorbisfile
+.PHONY : vorbisfile
+
+# fast build rule for target.
+vorbisfile/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/vorbis-build/lib/CMakeFiles/vorbisfile.dir/build.make _deps/vorbis-build/lib/CMakeFiles/vorbisfile.dir/build
+.PHONY : vorbisfile/fast
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
 
 # target to build an object file
-src/finger_model.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/finger_model.dir/build.make CMakeFiles/finger_model.dir/src/finger_model.cpp.o
-.PHONY : src/finger_model.cpp.o
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
 
-src/finger_model.i: src/finger_model.cpp.i
-.PHONY : src/finger_model.i
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-src/finger_model.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/finger_model.dir/build.make CMakeFiles/finger_model.dir/src/finger_model.cpp.i
-.PHONY : src/finger_model.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-src/finger_model.s: src/finger_model.cpp.s
-.PHONY : src/finger_model.s
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-src/finger_model.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/finger_model.dir/build.make CMakeFiles/finger_model.dir/src/finger_model.cpp.s
-.PHONY : src/finger_model.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
+src/render_finger.o: src/render_finger.cpp.o
+.PHONY : src/render_finger.o
+
+# target to build an object file
+src/render_finger.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ME_495_Final_Project.dir/build.make CMakeFiles/ME_495_Final_Project.dir/src/render_finger.cpp.o
+.PHONY : src/render_finger.cpp.o
+
+src/render_finger.i: src/render_finger.cpp.i
+.PHONY : src/render_finger.i
+
+# target to preprocess a source file
+src/render_finger.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ME_495_Final_Project.dir/build.make CMakeFiles/ME_495_Final_Project.dir/src/render_finger.cpp.i
+.PHONY : src/render_finger.cpp.i
+
+src/render_finger.s: src/render_finger.cpp.s
+.PHONY : src/render_finger.s
+
+# target to generate assembly for a file
+src/render_finger.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ME_495_Final_Project.dir/build.make CMakeFiles/ME_495_Final_Project.dir/src/render_finger.cpp.s
+.PHONY : src/render_finger.cpp.s
 
 # Help Target
 help:
@@ -160,11 +428,34 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
+	@echo "... package"
+	@echo "... package_source"
 	@echo "... rebuild_cache"
-	@echo "... finger_model"
-	@echo "... src/finger_model.o"
-	@echo "... src/finger_model.i"
-	@echo "... src/finger_model.s"
+	@echo "... test"
+	@echo "... FLAC"
+	@echo "... ME_495_Final_Project"
+	@echo "... benchmark_residual"
+	@echo "... freetype"
+	@echo "... main"
+	@echo "... ogg"
+	@echo "... sfml-audio"
+	@echo "... sfml-graphics"
+	@echo "... sfml-network"
+	@echo "... sfml-system"
+	@echo "... sfml-window"
+	@echo "... vorbis"
+	@echo "... vorbisenc"
+	@echo "... vorbisfile"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/render_finger.o"
+	@echo "... src/render_finger.i"
+	@echo "... src/render_finger.s"
 .PHONY : help
 
 

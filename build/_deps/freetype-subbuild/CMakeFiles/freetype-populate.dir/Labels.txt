@@ -1,0 +1,14 @@
+# Target labels
+ freetype-populate
+# Source files and their labels
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/CMakeFiles/freetype-populate
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/CMakeFiles/freetype-populate.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/CMakeFiles/freetype-populate-complete.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-build.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-configure.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-download.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-install.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-mkdir.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-patch.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-test.rule
+/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-update.rule
