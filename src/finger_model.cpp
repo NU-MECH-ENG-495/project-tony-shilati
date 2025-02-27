@@ -18,6 +18,7 @@ namespace fm {
         finger_model(/* args */);
         ~finger_model();
 
+        // Setters and Getters
         void set_finger_space_jacobian(Eigen::MatrixXd finger__space_jacobian);
         void set_finger_body_jacobian(Eigen::MatrixXd finger_body_jacobian);
         void set_tendon_routing_matrix(Eigen::MatrixXd tendon_routing_matrix);
@@ -28,6 +29,10 @@ namespace fm {
         Eigen::MatrixXd get_tendon_routing_matrix();
         std::vector<double> get_link_lengths();
         std::vector<double> get_joint_angles();
+
+        // Member functions
+        void update_finger_space_jacobian();
+        void update_finger_body_jacobian();
 
     private:
         Eigen::MatrixXd finger_space_jacobian;
@@ -52,20 +57,6 @@ namespace fm {
     ////////////////////////////////////////////////////////////
     // Getter functions
     ////////////////////////////////////////////////////////////
-
-    void finger_model::set_finger_space_jacobian(Eigen::MatrixXd finger_space_jacobian) {
-        if (finger_space_jacobian.rows() != 6) {
-            throw std::invalid_argument("finger_space_jacobian must be a 6xN matrix");
-        }
-        this->finger_space_jacobian = finger_space_jacobian;
-    }
-
-    void finger_model::set_finger_body_jacobian(Eigen::MatrixXd finger_body_jacobian) {
-        if (finger_body_jacobian.rows() != 6) {
-            throw std::invalid_argument("finger_body_jacobian must be a 6xN matrix");
-        }
-        this->finger_body_jacobian = finger_body_jacobian;
-    }
 
     void finger_model::set_tendon_routing_matrix(Eigen::MatrixXd tendon_routing_matrix) {
         if (tendon_routing_matrix.rows() > 3 || tendon_routing_matrix.cols() > 6) {
@@ -93,10 +84,12 @@ namespace fm {
     ////////////////////////////////////////////////////////////
 
     Eigen::MatrixXd finger_model::get_finger_space_jacobian() {
+        this->update_finger_space_jacobian();   // Update the finger space jacobian before returning it
         return finger_space_jacobian;
     }
 
     Eigen::MatrixXd finger_model::get_finger_body_jacobian() {
+        this->update_finger_body_jacobian();    // Update the finger body jacobian before returning it
         return finger_body_jacobian;
     }
 
@@ -110,6 +103,20 @@ namespace fm {
 
     std::vector<double> finger_model::get_joint_angles() {
         return joint_angles;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // Memeber functions
+    ////////////////////////////////////////////////////////////
+
+    // Update Space Jacobian
+    void finger_model::update_finger_space_jacobian() {
+        // Update Space Jacobian
+    }
+
+    // Update Body Jacobian
+    void finger_model::update_finger_body_jacobian() {
+        // Update Body Jacobian
     }
 
 }
