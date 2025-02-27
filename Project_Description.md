@@ -10,3 +10,9 @@ There are many aspects to this finger testbed project: mechanical systems, elect
 The creation of library is partially dependent on the associated hardware being built, which may not be possible in the available time. Since the problem of driving brushless DC motors has been solved, I will first render a robot finger using a gui. Then I will create the Geppetto library and interface it with the gui to control the motion of the finger. 
 
 My first step in this project will be identifying existing libraries that my library will depend on and adding them to my project git repository. 
+
+## Dependencies
+
+- SFML: C++ cross platform graphics library
+- Eigen: C++ linear algenra library
+- BioIK: C++ inverse kinematics library
