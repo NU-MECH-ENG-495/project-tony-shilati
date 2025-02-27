@@ -1,3 +1,4 @@
+#include "finger_model.hpp"
 #include <iostream>
 #include <Eigen/Dense>
 #include <vector>
@@ -21,25 +22,36 @@ namespace fm {
         void set_finger_body_jacobian(Eigen::MatrixXd finger_body_jacobian);
         void set_tendon_routing_matrix(Eigen::MatrixXd tendon_routing_matrix);
         void set_link_lengths(std::vector<double> link_lengths);
+        void set_joint_angles(std::vector<double> joint_angles);
         Eigen::MatrixXd get_finger_space_jacobian();
         Eigen::MatrixXd get_finger_body_jacobian();
         Eigen::MatrixXd get_tendon_routing_matrix();
         std::vector<double> get_link_lengths();
+        std::vector<double> get_joint_angles();
 
     private:
         Eigen::MatrixXd finger_space_jacobian;
         Eigen::MatrixXd finger_body_jacobian;
         Eigen::MatrixXd tendon_routing_matrix;
-        std::vector<double> link_lengths;
+        std::vector<double> link_lengths; // Finger link lengths from proximal to distal
+        std::vector<double> joint_angles; // Joint angles in radians from proximal to distal
     };
 
-    finger_model::finger_model(/* args */)
+    finger_model::finger_model()
+        : finger_space_jacobian(Eigen::MatrixXd::Zero(6, 3)),
+          finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
+          tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 4)),
+          link_lengths(4, 0.0)
     {
     }
     
     finger_model::~finger_model()
     {
     }
+
+    ////////////////////////////////////////////////////////////
+    // Getter functions
+    ////////////////////////////////////////////////////////////
 
     void finger_model::set_finger_space_jacobian(Eigen::MatrixXd finger_space_jacobian) {
         if (finger_space_jacobian.rows() != 6) {
@@ -69,6 +81,17 @@ namespace fm {
         this->link_lengths = link_lengths;
     }
 
+    void finger_model::set_joint_angles(std::vector<double> joint_angles) {
+        if (joint_angles.size() != 3) {
+            throw std::invalid_argument("joint_angles must have exactly 4 elements");
+        }
+        this->joint_angles = joint_angles;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // Getter functions
+    ////////////////////////////////////////////////////////////
+
     Eigen::MatrixXd finger_model::get_finger_space_jacobian() {
         return finger_space_jacobian;
     }
@@ -83,6 +106,10 @@ namespace fm {
 
     std::vector<double> finger_model::get_link_lengths() {
         return link_lengths;
+    }
+
+    std::vector<double> finger_model::get_joint_angles() {
+        return joint_angles;
     }
 
 }
