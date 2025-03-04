@@ -13,8 +13,7 @@ namespace fm {
         ~finger_model();
 
         // Setters and Getters
-        void set_finger_space_jacobian(Eigen::MatrixXd finger_space_jacobian);
-        void set_finger_body_jacobian(Eigen::MatrixXd finger_body_jacobian);
+        void set_home_position_screw_axes(std::vector<Eigen::MatrixXd> home_position_screw_axes);
         void set_tendon_routing_matrix(Eigen::MatrixXd tendon_routing_matrix);
         void set_link_lengths(std::vector<double> link_lengths);
         void set_joint_angles(std::vector<double> joint_angles);
@@ -25,8 +24,8 @@ namespace fm {
         std::vector<double> get_joint_angles();
 
         // Member functions
-        void update_finger_space_jacobian();
-        void update_finger_body_jacobian();
+        void calculate_finger_space_jacobian();
+        void calculate_finger_body_jacobian();
 
     private:
         Eigen::MatrixXd finger_space_jacobian;
@@ -34,6 +33,7 @@ namespace fm {
         Eigen::MatrixXd tendon_routing_matrix;
         std::vector<double> link_lengths; // Finger link lengths from proximal to distal
         std::vector<double> joint_angles; // Joint angles in radians from proximal to distal
+        std::vector<Eigen ::MatrixXd> home_position_screw_axes; // Home position screw axes from proximal to distal
     };
 
 }

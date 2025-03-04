@@ -5,13 +5,22 @@
 
 namespace fm {
 
-    finger_model::finger_model()
+    finger_model::finger_model(std::vector<Eigen::MatrixXd> home_position_screw_axes)
         : finger_space_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 4)),
           link_lengths(4, 0.0),
           joint_angles(3, 0.0) // Initialize joint_angles with 3 elements
     {
+        if (home_position_screw_axes.size() > 4 || home_position_screw_axes.size() < 1) {
+            throw std::invalid_argument("home_position_screw_axes must have exactly 1 - 4 elements");
+        }
+        for (const auto& matrix : home_position_screw_axes) {
+            if (matrix.rows() != 6 || matrix.cols() != 1) {
+                throw std::invalid_argument("Each matrix in home_position_screw_axes must be 6x1");
+            }
+        }
+        this->home_position_screw_axes = home_position_screw_axes; // Initialize home_position_screw_axes with the passed vector
     }
     
     finger_model::~finger_model()
@@ -21,14 +30,6 @@ namespace fm {
     ////////////////////////////////////////////////////////////
     // Setter functions
     ////////////////////////////////////////////////////////////
-
-    void finger_model::set_finger_space_jacobian(Eigen::MatrixXd finger_space_jacobian) {
-        this->finger_space_jacobian = finger_space_jacobian;
-    }
-
-    void finger_model::set_finger_body_jacobian(Eigen::MatrixXd finger_body_jacobian) {
-        this->finger_body_jacobian = finger_body_jacobian;
-    }
 
     void finger_model::set_tendon_routing_matrix(Eigen::MatrixXd tendon_routing_matrix) {
         if (tendon_routing_matrix.rows() > 3 || tendon_routing_matrix.cols() > 6) {
