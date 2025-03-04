@@ -10,10 +10,13 @@ int main() {
     // Create a vector of linlengths
     std::vector<double> link_lengths = {0.046, 0.032, 0.025};
 
+    // Create a vector of joint angles
+    std::vector<double> joint_angles = {0.0, 0.0, 0.0};
+
     // Create a vector containing the fingers's home position screw axes
-    Eigen::VectorXd S1 << 0, 0, 1, 0, 0, 0;
-    Eigen::VectorXd S2 << 0, 0, 1, 0, 0, 0;
-    Eigen::VectorXd S3 << 0, 0, 1, 0, 0, 0;
+    Eigen::VectorXd S1(6); S1 << 0, 0, 1, 0, 0, 0;
+    Eigen::VectorXd S2(6); S2 << 0, 0, 1, 0, 0, 0;
+    Eigen::VectorXd S3(6); S3 << 0, 0, 1, 0, 0, 0;
     std::vector<Eigen::VectorXd> home_position_screw_axes;
     home_position_screw_axes.push_back(S1);
     home_position_screw_axes.push_back(S2);
@@ -27,9 +30,7 @@ int main() {
                                 0, 0, 0, 1;
 
     // Create a finger model
-    fm::finger_model finger;
-    finger.set_link_lengths({1.0, 1.0, 1.0, 1.0});
-    finger.set_joint_angles({0.0, 0.0, 0.0});
+    fm::finger_model finger(home_position_body_frame, home_position_screw_axes, link_lengths, joint_angles);
 
     std::cout << "Link lengths: ";
     for (const auto& length : finger.get_link_lengths()) {

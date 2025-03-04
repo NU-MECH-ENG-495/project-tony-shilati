@@ -9,7 +9,7 @@ namespace fm {
     class finger_model
     {
     public:
-        finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<Eigen::VectorXd> home_position_screw_axes, Eigen::MatrixXd tendon_routing_matrix, std::vector<double> link_lengths, std::vector<double> joint_angles);
+        finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<Eigen::VectorXd> home_position_screw_axes, std::vector<double> link_lengths, std::vector<double> joint_angles);
         ~finger_model();
 
         // Setters and Getters

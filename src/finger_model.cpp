@@ -69,12 +69,12 @@ namespace fm {
     ////////////////////////////////////////////////////////////
 
     Eigen::MatrixXd finger_model::get_finger_space_jacobian() {
-        this->update_finger_space_jacobian();   // Update the finger space jacobian before returning it
+        this->calculate_finger_space_jacobian();   // Update the finger space jacobian before returning it
         return finger_space_jacobian;
     }
 
     Eigen::MatrixXd finger_model::get_finger_body_jacobian() {
-        this->update_finger_body_jacobian();    // Update the finger body jacobian before returning it
+        this->calculate_finger_body_jacobian();    // Update the finger body jacobian before returning it
         return finger_body_jacobian;
     }
 
@@ -96,12 +96,12 @@ namespace fm {
 
     // Update Space Jacobian
     void finger_model::calculate_finger_space_jacobian() {
-        // Update Space Jacobian
+        // Calculate Space Jacobian
     }
 
     // Update Body Jacobian
     void finger_model::calculate_finger_body_jacobian() {
-        // Update Body Jacobian
+        // Calculate Body Jacobian
     }
 
 }
