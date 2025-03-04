@@ -1,76 +1,43 @@
+#include <iostream>
+#include "include/finger_model.hpp"
+#include <Eigen/Dense>
+#include <math.h>
+#include <vector>
 
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
-#include <SFML/Graphics.hpp>
+int main() {
+    std::cout << "Finger model program started." << std::endl;
 
-#include <cstdlib>
+    // Create a vector of linlengths
+    std::vector<double> link_lengths = {0.046, 0.032, 0.025};
 
-////////////////////////////////////////////////////////////
-/// Constants
-////////////////////////////////////////////////////////////
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 600
+    // Create a vector of joint angles
+    std::vector<double> joint_angles = {0.0, 0.0, 0.0};
 
-int main()
-{
-    // Create the window of the application with a stencil buffer
-    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}),
-                            "SFML Stencil",
-                            sf::Style::Titlebar | sf::Style::Close,
-                            sf::State::Windowed,
-                            sf::ContextSettings{0 /* depthBits */, 8 /* stencilBits */});
-    window.setVerticalSyncEnabled(true);
+    // Create a vector containing the fingers's home position screw axes
+    Eigen::VectorXd S1(6); S1 << 0, 0, 1, 0, 0, 0;
+    Eigen::VectorXd S2(6); S2 << 0, 0, 1, 0, 0, 0;
+    Eigen::VectorXd S3(6); S3 << 0, 0, 1, 0, 0, 0;
+    std::vector<Eigen::VectorXd> home_position_screw_axes;
+    home_position_screw_axes.push_back(S1);
+    home_position_screw_axes.push_back(S2);
+    home_position_screw_axes.push_back(S3);
 
+    // Create a 4x4 SE3 matrix representing the finger's home position in the body frame
+    Eigen::MatrixXd home_position_body_frame(4, 4);
+    home_position_body_frame << 1, 0, 0, 0,
+                                0, 1, 0, 0,
+                                0, 0, 1, 0,
+                                0, 0, 0, 1;
 
-    sf::RectangleShape Base_Link({150, 40});
-    Base_Link.setFillColor(sf::Color::Red);
-    Base_Link.setPosition({320, 450});
-    Base_Link.setRotation(sf::degrees(90));
+    // Create a finger model
+    fm::finger_model finger(home_position_body_frame, home_position_screw_axes, link_lengths, joint_angles);
 
-    sf::RectangleShape Link1({150, 40});
-    Link1.setFillColor(sf::Color::Red);
-    Link1.setPosition({300, 430});
-    Link1.setRotation(sf::degrees(0));
-
-    sf::CircleShape Joint1(30);
-    Joint1.setFillColor(sf::Color::Blue);
-    Joint1.setPosition({270, 420});
-    Joint1.setRotation(sf::degrees(0));
-
-    while (window.isOpen())
-    {
-        // Handle events
-        while (const std::optional event = window.pollEvent())
-        {
-            // Window closed: exit
-            if (event->is<sf::Event::Closed>())
-            {
-                window.close();
-                break;
-            }
-        }
-
-        // Clear the window color to white and the initial stencil buffer values to 0
-        window.clear(sf::Color::White, 0);
-
-        /*
-        `* Draw Finger
-         * Joints on Level 7-5 and links on level 4-1
-        `*/ 
-
-        window.draw(Base_Link,
-                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 4, ~0u, false});
-
-        window.draw(Link1,
-                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 3, ~0u, false});
-
-        window.draw(Joint1,
-                    sf::StencilMode{sf::StencilComparison::Greater, sf::StencilUpdateOperation::Replace, 7, ~0u, false});
-
-        // Display things on screen
-        window.display();
+    std::cout << "Link lengths: ";
+    for (const auto& length : finger.get_link_lengths()) {
+        std::cout << length << " ";
     }
-
-    return EXIT_SUCCESS;
+    std::cout << std::endl;
+    
+    // You can add code here to create and use the finger_model class
+    return 0;
 }

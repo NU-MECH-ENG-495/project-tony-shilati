@@ -1,3 +1,0 @@
-/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/vorbis-subbuild/CMakeFiles/vorbis-populate.dir
-/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/vorbis-subbuild/CMakeFiles/edit_cache.dir
-/Users/tonyshilati/ME495_C++/Final_Project/project-tony-shilati/build/_deps/vorbis-subbuild/CMakeFiles/rebuild_cache.dir
