@@ -104,4 +104,12 @@ namespace fm {
         // Calculate Body Jacobian
     }
 
+    Eigen::VectorXd finger_model::forward_kinematics_body(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Blist, std::vector<double> thetalist) {
+        // Calculate forward kinematics
+    }
+
+    Eigen::VectorXd finger_model::forward_kinematics_space(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Slist, std::vector<double> thetalist) {
+        // Calculate forward kinematics
+    }
+
 }

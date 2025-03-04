@@ -26,6 +26,9 @@ namespace fm {
         // Member functions
         void calculate_finger_space_jacobian();
         void calculate_finger_body_jacobian();
+        Eigen::VectorXd forward_kinematics_body(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Blist, std::vector<double> thetalist);
+        Eigen::VectorXd forward_kinematics_space(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Slist, std::vector<double> thetalist);
+
 
     private:
         Eigen::MatrixXd home_position_body_frame;
