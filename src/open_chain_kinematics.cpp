@@ -4,7 +4,7 @@
 #include <math.h>
 
 namespace rigid_body_motion {
-    
+
     Eigen::MatrixXd VecToso3(const Eigen::VectorXd &omega){
         // Converts a 3-vector to its s03 representation
         assert(omega.size() == 3 && "Input vector must have 3 components");     // Check vector size 
@@ -31,7 +31,13 @@ namespace rigid_body_motion {
 
     Eigen::MatrixXd Rodriguez(const Eigen::VectorXd &omega, const float &theta){
         // Implements Rodriguez formula to calculate a rotation matrix from an axis and angle
+        assert(omega.size() == 3 && "Input vector must have 3 components");
+        assert(fabs(omega_unit.norm() - 1.0) < 1e-10 && "Input vector must be a unit vector");
 
+        Eigen::MatrixXd omega_hat = VecToso3(omega);
+        Eigen::MatrixXd I = Eigen::MatrixXd::Identity(3, 3);
+        Eigen::MatrixXd R = I + sin(theta) * omega_hat + (1 - cos(theta)) * omega_hat * omega_hat;
+        return R;
     }
 
     Eigen::MatrixXd Matrix_Exponential(const Eigen::VectorXd &S, const float &theta){
