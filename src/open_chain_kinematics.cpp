@@ -3,7 +3,16 @@
 #include "include/open_chain_kinematics.hpp"
 #include <math.h>
 
-namespace open_chain_kinematics {
+namespace rigid_body_motion {
+    Eigen::MatrixXd VecToso3(const Eigen::VectorXd &omega){
+        // Converts a 3-vector to its s03 representation
+
+    }
+
+    Eigen::VectorXd so3ToVec(const Eigen::MatrixXd &so3mat){
+        // Converts an so3 matrix to a vector
+        
+    }
 
     Eigen::MatrixXd Rodriguez(const Eigen::VectorXd &omega, const float &theta){
         // Implements Rodriguez formula to calculate a rotation matrix from an axis and angle
@@ -20,13 +29,17 @@ namespace open_chain_kinematics {
 
     }
 
-    Eigen::VectorXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const std::vector<float> theta_list) {
+}
+
+namespace open_chain_kinematics {
+
+    Eigen::VectorXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::VectorXd theta_list) {
         // Forward kinematics in the space frame
 
     }
 
-    Eigen::VectorXd FKin_Body(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const std::vector<float> theta_list) {
-        // Function definition for FKin_Body
+    Eigen::VectorXd FKin_Body(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::VectorXd theta_list) {
+        // Forward kinematics in the body frame
         
     }
 
