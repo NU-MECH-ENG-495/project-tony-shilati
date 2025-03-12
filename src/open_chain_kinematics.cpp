@@ -4,6 +4,7 @@
 #include <math.h>
 
 namespace rigid_body_motion {
+    
     Eigen::MatrixXd VecToso3(const Eigen::VectorXd &omega){
         // Converts a 3-vector to its s03 representation
         assert(omega.size() == 3 && "Input vector must have 3 components");     // Check vector size 

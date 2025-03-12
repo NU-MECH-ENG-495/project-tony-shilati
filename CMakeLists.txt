@@ -28,6 +28,32 @@ FetchContent_MakeAvailable(SFML)
 # Find Eigen3
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
+# Add the open_chain_kinematics library
+add_library(open_chain_kinematics
+    src/open_chain_kinematics.cpp
+)
+
+target_include_directories(open_chain_kinematics PUBLIC
+    ${PROJECT_SOURCE_DIR}/src/include
+)
+
+target_link_libraries(open_chain_kinematics PUBLIC
+    Eigen3::Eigen
+)
+
+# Add the finger_model library
+add_library(finger_model
+    src/finger_model.cpp
+)
+
+target_include_directories(finger_model PUBLIC
+    ${PROJECT_SOURCE_DIR}/src/include
+)
+
+target_link_libraries(finger_model PUBLIC
+    Eigen3::Eigen
+)
+
 # Add the executables
 add_executable(main src/main.cpp src/finger_model.cpp)
 add_executable(eigen_example src/eigen_example.cpp)
@@ -39,6 +65,8 @@ target_link_libraries(main PRIVATE
     SFML::Window
     SFML::System
     Eigen3::Eigen
+    open_chain_kinematics
+    finger_model
 )
 
 target_compile_features(eigen_example PRIVATE cxx_std_17)
