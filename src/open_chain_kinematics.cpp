@@ -6,12 +6,26 @@
 namespace rigid_body_motion {
     Eigen::MatrixXd VecToso3(const Eigen::VectorXd &omega){
         // Converts a 3-vector to its s03 representation
+        assert(omega.size() == 3 && "Input vector must have 3 components");     // Check vector size 
+
+        Eigen::MatrixXd so3mat(3, 3);
+        so3mat << 0, -omega(2), omega(1),
+              omega(2), 0, -omega(0),
+              -omega(1), omega(0), 0;
+        return so3mat;
 
     }
 
     Eigen::VectorXd so3ToVec(const Eigen::MatrixXd &so3mat){
         // Converts an so3 matrix to a vector
+        assert(so3mat.rows() == 3 && so3mat.cols() == 3 && "Input matrix must be 3x3");
+        assert((so3mat + so3mat.transpose()).isZero(1e-10) && "Input matrix must be skew symmetric");
         
+
+        Eigen::VectorXd omega(3);
+        omega << so3mat(2, 1), so3mat(0, 2), so3mat(1, 0);
+        return omega;
+
     }
 
     Eigen::MatrixXd Rodriguez(const Eigen::VectorXd &omega, const float &theta){
