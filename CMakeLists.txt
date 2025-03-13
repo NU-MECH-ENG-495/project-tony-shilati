@@ -55,8 +55,7 @@ target_link_libraries(finger_model PUBLIC
 )
 
 # Add the executables
-add_executable(main src/main.cpp src/finger_model.cpp)
-add_executable(eigen_example src/eigen_example.cpp)
+add_executable(main src/main.cpp src/render_finger.cpp src/finger_model.cpp)
 
 # Link the necessary SFML and Eigen libraries
 target_compile_features(main PRIVATE cxx_std_17)
@@ -67,11 +66,6 @@ target_link_libraries(main PRIVATE
     Eigen3::Eigen
     open_chain_kinematics
     finger_model
-)
-
-target_compile_features(eigen_example PRIVATE cxx_std_17)
-target_link_libraries(eigen_example PRIVATE
-    Eigen3::Eigen
 )
 
 # Link SFML to the project library

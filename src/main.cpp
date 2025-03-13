@@ -1,5 +1,6 @@
 #include <iostream>
 #include "include/finger_model.hpp"
+#include "include/render_finger.hpp"
 #include <Eigen/Dense>
 #include <math.h>
 #include <vector>
@@ -37,7 +38,9 @@ int main() {
         std::cout << length << " ";
     }
     std::cout << std::endl;
-    
-    // You can add code here to create and use the finger_model class
+
+    // Render the finger model
+    render_finger();
+
     return 0;
 }

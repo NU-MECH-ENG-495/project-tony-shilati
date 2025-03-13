@@ -49,7 +49,7 @@ namespace rigid_body_motion {
 
         Eigen::MatrixXd omega_so3 = VecToso3(omega);
         Eigen::MatrixXd I = Eigen::MatrixXd::Identity(3, 3);
-        Eigen::MatrixXd R = Rodriguez(omega_hat, theta);
+        Eigen::MatrixXd R = Rodriguez(omega_so3, theta);
         Eigen::MatrixXd V = (I * theta + (1 - cos(theta)) * omega_so3 + (theta - sin(theta)) * omega_so3 * omega_so3) * v;
 
         Eigen::MatrixXd exp_S_theta(4, 4);
