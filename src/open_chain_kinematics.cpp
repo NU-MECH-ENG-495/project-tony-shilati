@@ -84,23 +84,43 @@ namespace rigid_body_motion {
 
 namespace open_chain_kinematics {
 
-    Eigen::VectorXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::VectorXd theta_list) {
+    Eigen::MatrixXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::VectorXd theta_list) {
         // Forward kinematics in the space frame
         assert(S_list.size() == theta_list.size() && "S_list and theta_list must have the same size");
+        for (const auto& S : S_list) {
+            assert(S.size() == 6 && "Each element of S_list must be a 6-vector");
+        }
+
+        // Product of exponentials formula
         Eigen::MatrixXd T = Eigen::MatrixXd::Identity(4, 4);
         for (int i = 0; i < S_list.size(); i++) {
-            T = rigid_body_motion::Matrix_Exponential(S_list[i], theta_list[i]) * T;
+            T = T * rigid_body_motion::Matrix_Exponential(S_list[i], theta_list[i]);
         }
 
         T = T * M;
 
+        // Return the Adjoint of the final transformation matrix
         return rigid_body_motion::Adjoint(T);
 
 
     }
 
-    Eigen::VectorXd FKin_Body(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::VectorXd theta_list) {
+    Eigen::MatrixXd FKin_Body(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::VectorXd theta_list) {
         // Forward kinematics in the body frame
+        assert(B_list.size() == theta_list.size() && "B_list and theta_list must have the same size");
+        for (const auto& B : B_list) {
+            assert(B.size() == 6 && "Each element of B_list must be a 6-vector");
+        }
+
+        // Product of exponentials formula
+        Eigen::MatrixXd T = M;
+        for (int i = 0; i < B_list.size(); i++) {
+            T = T * rigid_body_motion::Matrix_Exponential(B_list[i], theta_list[i]);
+        }
+
+        T = M * T;
+
+
         
     }
 
