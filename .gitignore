@@ -1,3 +1,5 @@
 .gitignore
 _deps
 build/
+.DS_Store
+depedencies/*

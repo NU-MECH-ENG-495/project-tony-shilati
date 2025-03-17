@@ -62,6 +62,7 @@ namespace rigid_body_motion {
 
     Eigen::MatrixXd Matrix_Logarithm(const Eigen::MatrixXd &T){
         // Calculates the matrix logarithm of a rigid body motion
+        
 
     }
 
