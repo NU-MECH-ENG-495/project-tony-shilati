@@ -18,5 +18,4 @@ My first step in this project will be identifying existing libraries that my lib
 
 ### Finger Parameters
 The parameters of the finger, as used in the Dynamics, are shown in the figure below.
-
-[Finger Parameters](media/Finger\ Parameters.png)
+![Finger Parameters](media/Finger%20Parameters.png)
