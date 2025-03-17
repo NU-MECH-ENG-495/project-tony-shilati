@@ -14,7 +14,7 @@ My first step in this project will be identifying existing libraries that my lib
 ## Dependencies
 
 - SFML: C++ cross platform graphics library
-- Eigen: C++ linear algenra library
+- Eigen: C++ linear algebra library
 
 ### Finger Parameters
 The parameters of the finger, as used in the Dynamics, are shown in the figure below.
