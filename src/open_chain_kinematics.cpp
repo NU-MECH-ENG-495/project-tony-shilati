@@ -40,6 +40,20 @@ namespace rigid_body_motion {
         return R;
     }
 
+    Eigen::MatrixXd Adjoint(const Eigen::MatrixXd &T){
+        // Calculates the adjoint representation of a transformation matrix
+        assert(T.rows() == 4 && T.cols() == 4 && "Input matrix must be 4x4");
+
+        Eigen::MatrixXd R = T.block(0, 0, 2, 2);
+        Eigen::MatrixXd p = T.block(0, 3, 2, 3);
+        Eigen::MatrixXd p_so3 = VecToso3(p);
+        Eigen::MatrixXd Ad_T(6, 6);
+        Ad_T << R, Eigen::MatrixXd::Zero(3, 3),
+            p_so3 * R, R;
+        return Ad_T;
+
+    }
+
     Eigen::MatrixXd Matrix_Exponential(const Eigen::VectorXd &S, const float &theta){
         // Calculates the matrix exponential of a rigid body motion
         assert(S.size() == 6 && "Input vector S must have 6 components");
@@ -72,6 +86,16 @@ namespace open_chain_kinematics {
 
     Eigen::VectorXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::VectorXd theta_list) {
         // Forward kinematics in the space frame
+        assert(S_list.size() == theta_list.size() && "S_list and theta_list must have the same size");
+        Eigen::MatrixXd T = Eigen::MatrixXd::Identity(4, 4);
+        for (int i = 0; i < S_list.size(); i++) {
+            T = rigid_body_motion::Matrix_Exponential(S_list[i], theta_list[i]) * T;
+        }
+
+        T = T * M;
+
+        return rigid_body_motion::Adjoint(T);
+
 
     }
 
