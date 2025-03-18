@@ -111,7 +111,7 @@ namespace rigid_body_motion {
     
         Eigen::VectorXd omega = RotationLogarithm(R);
         Eigen::MatrixXd I = Eigen::MatrixXd::Identity(3, 3);
-        Eigen::MatrixXd G_inv = (1/theta) * I - 1/2 * VecToso3(omega) + (1/theta - 1/2 * cot(theta/2)) * VecToso3(omega) * VecToso3(omega);
+        Eigen::MatrixXd G_inv = (1/theta) * I - 1/2 * VecToso3(omega) + (1/theta - 1/2 / tan(theta/2)) * VecToso3(omega) * VecToso3(omega);
         Eigen::VectorXd v = G_inv * p;
         Eigen::VectorXd S(6);
         S << omega, v;
