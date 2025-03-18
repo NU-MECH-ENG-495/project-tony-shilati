@@ -9,7 +9,8 @@ namespace fm {
     class finger_model
     {
     public:
-        finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<Eigen::VectorXd> home_position_screw_axes, std::vector<double> link_lengths, std::vector<double> joint_angles);
+        finger_model(); // Default constructor
+        finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<double> link_lengths, std::vector<double> joint_angles); // Overloaded constructor
         ~finger_model();
 
         // Setters and Getters
@@ -26,6 +27,9 @@ namespace fm {
         // Member functions
         void calculate_finger_space_jacobian();
         void calculate_finger_body_jacobian();
+        Eigen::VectorXd forward_kinematics_body(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Blist, std::vector<double> thetalist);
+        Eigen::VectorXd forward_kinematics_space(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Slist, std::vector<double> thetalist);
+
 
     private:
         Eigen::MatrixXd home_position_body_frame;
