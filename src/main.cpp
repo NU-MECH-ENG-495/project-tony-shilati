@@ -1,6 +1,5 @@
 #include <iostream>
 #include "include/finger_model.hpp"
-#include "include/render_finger.hpp"
 #include <Eigen/Dense>
 #include <math.h>
 #include <vector>
@@ -8,7 +7,7 @@
 int main() {
     std::cout << "Finger model program started." << std::endl;
 
-    // Create a vector of linlengths
+    // Create a vector of link lengths
     std::vector<double> link_lengths = {0.046, 0.032, 0.025};
 
     // Create a vector of joint angles
@@ -38,9 +37,7 @@ int main() {
         std::cout << length << " ";
     }
     std::cout << std::endl;
-
-    // Render the finger model
-    render_finger();
-
+    
+    // You can add code here to create and use the finger_model class
     return 0;
 }

@@ -93,11 +93,11 @@ namespace fm {
         return tendon_routing_matrix;
     }
 
-    std::vector<double> finger_model::get_link_lengths() {
+    Eigen::VectorXd finger_model::get_link_lengths() {
         return link_lengths;
     }
 
-    std::vector<double> finger_model::get_joint_angles() {
+    Eigen::VectorXd finger_model::get_joint_angles() {
         return joint_angles;
     }
 
@@ -115,8 +115,9 @@ namespace fm {
         // Calculate Body Jacobian
     }
 
-    Eigen::VectorXd finger_model::forward_kinematics_body(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Blist, std::vector<double> thetalist) {
+    Eigen::VectorXd finger_model::forward_kinematics_body() {
         // Calculate forward kinematics
+        Eigen::MatrixXd T = open_chain_kinematics::FKin_Body(this->home_position_body_frame, Blist, thetalist);
     }
 
     Eigen::VectorXd finger_model::forward_kinematics_space(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Slist, std::vector<double> thetalist) {
