@@ -123,8 +123,11 @@ namespace fm {
         return open_chain_kinematics::Matrix_Logarithm(T);
     }
 
-    Eigen::VectorXd finger_model::forward_kinematics_space(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Slist, std::vector<double> thetalist) {
+    Eigen::VectorXd finger_model::forward_kinematics_space() {
         // Calculate forward kinematics
+        Eigen::MatrixXd T = open_chain_kinematics::FKin_Space(this->home_position_body_frame, this->home_position_screw_axes_space, this->joint_angles);
+        return open_chain_kinematics::Matrix_Logarithm(T);
+
     }
 
 }
