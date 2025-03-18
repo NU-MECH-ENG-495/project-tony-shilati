@@ -8,6 +8,7 @@ namespace rigid_body_motion {
     Eigen::MatrixXd VecToso3(const Eigen::VectorXd &omega);
     Eigen::VectorXd so3ToVec(const Eigen::MatrixXd &so3mat);
     Eigen::MatrixXd Rodriguez(const Eigen::VectorXd &omega, const float &theta);
+    Eigen::VectorXd RotationLogarithm (const Eigen::MatrixXd &R);
     Eigen::MatrixXd Adjoint(const Eigen::MatrixXd &T);
     Eigen::MatrixXd Matrix_Exponential(const Eigen::VectorXd &S, const float &theta);
     Eigen::MatrixXd Matrix_Logarithm(const Eigen::MatrixXd &T);

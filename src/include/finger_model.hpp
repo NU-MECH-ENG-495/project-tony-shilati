@@ -35,7 +35,8 @@ namespace fm {
     private:
         // Finger geometric information
         Eigen::MatrixXd home_position_body_frame;
-        std::vector<Eigen::VectorXd> home_position_screw_axes;
+        std::vector<Eigen::VectorXd> home_position_screw_axes_body;
+        std::vector<Eigen::VectorXd> home_position_screw_axes_space;
         Eigen::VectorXd link_lengths; 
         Eigen::VectorXd joint_angles; 
 

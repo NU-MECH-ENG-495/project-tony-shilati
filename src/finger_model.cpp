@@ -11,7 +11,9 @@ namespace fm {
           finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
           link_lengths(4, 0.0),
-          joint_angles(3, 0.0) // Initialize joint_angles with 3 elements
+          joint_angles(3, 0.0),
+          set_home_position_screw_axes_body(std::vector<Eigen::VectorXd> home_position_screw_axes_body),
+        set_home_position_screw_axes_space(std::vector<Eigen::VectorXd> home_position_screw_axes_space)
     {
         // Default constructor implementation
     }
@@ -21,7 +23,7 @@ namespace fm {
           finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
           link_lengths(4, 0.0),
-          joint_angles(3, 0.0) // Initialize joint_angles with 3 elements
+          joint_angles(3, 0.0)
     {
         if (home_position_body_frame.rows() != 4 || home_position_body_frame.cols() != 4) {
             throw std::invalid_argument("home_position_body_frame must be a 4x4 SE3 matrix");
@@ -117,7 +119,8 @@ namespace fm {
 
     Eigen::VectorXd finger_model::forward_kinematics_body() {
         // Calculate forward kinematics
-        Eigen::MatrixXd T = open_chain_kinematics::FKin_Body(this->home_position_body_frame, Blist, thetalist);
+        Eigen::MatrixXd T = open_chain_kinematics::FKin_Body(this->home_position_body_frame, this->home_position_screw_axes_body, this->joint_angles);
+        return open_chain_kinematics::Matrix_Logarithm(T);
     }
 
     Eigen::VectorXd finger_model::forward_kinematics_space(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Slist, std::vector<double> thetalist) {
