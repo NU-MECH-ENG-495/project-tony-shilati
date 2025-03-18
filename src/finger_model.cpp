@@ -10,42 +10,30 @@ namespace fm {
         : finger_space_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
-          link_lengths(4, 0.0),
-          joint_angles(3, 0.0),
-          set_home_position_screw_axes_body(std::vector<Eigen::VectorXd> home_position_screw_axes_body),
-        set_home_position_screw_axes_space(std::vector<Eigen::VectorXd> home_position_screw_axes_space)
+          link_lengths(Eigen::VectorXd()),
+          joint_angles(Eigen::VectorXd()),
+          home_position_screw_axes_body(std::vector<Eigen::VectorXd>()),
+          home_position_screw_axes_space(std::vector<Eigen::VectorXd>())
     {
         // Default constructor implementation
     }
 
-    finger_model::finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<double> link_lengths, std::vector<double> joint_angles)
+    finger_model::finger_model(Eigen::VectorXd link_lengths, Eigen::VectorXd joint_angles)
         : finger_space_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
-          link_lengths(4, 0.0),
-          joint_angles(3, 0.0)
+          link_lengths(link_lengths),
+          joint_angles(joint_angles),
+          home_position_screw_axes_body(std::vector<Eigen::VectorXd>()),
+          home_position_screw_axes_space(std::vector<Eigen::VectorXd>())
     {
-        if (home_position_body_frame.rows() != 4 || home_position_body_frame.cols() != 4) {
-            throw std::invalid_argument("home_position_body_frame must be a 4x4 SE3 matrix");
-        }
-        if (home_position_screw_axes.size() > 4 || home_position_screw_axes.size() < 1) {
-            throw std::invalid_argument("home_position_screw_axes must have exactly 1 - 4 elements");
-        }
-        for (const auto& vector : home_position_screw_axes) {
-            if (vector.size() != 6) {
-                throw std::invalid_argument("Each vector in home_position_screw_axes must have exactly 6 elements");
-            }
-        }
         if (link_lengths.size() < 1 || link_lengths.size() > 4) {
             throw std::invalid_argument("link_lengths must have exactly 1-4 elements");
         }
+
         if (joint_angles.size() < 1 || joint_angles.size() > 4) {
             throw std::invalid_argument("joint_angles must have exactly 1-4 elements");
         }
-
-        this->home_position_body_frame = home_position_body_frame; // Initialize home_position_body_frame with the passed matrix
-        this->link_lengths = link_lengths; // Initialize link_lengths with the passed vector
-        this->joint_angles = joint_angles; // Initialize joint_angles with the passed vector
     }
     
     finger_model::~finger_model()
@@ -56,6 +44,27 @@ namespace fm {
     // Setter functions
     ////////////////////////////////////////////////////////////
 
+    void finger_model::set_home_position_screw_axes_body(std::vector<Eigen::VectorXd> home_position_screw_axes) {
+        if (home_position_screw_axes.size() < 1 || home_position_screw_axes.size() > 4) {
+            throw std::invalid_argument("home_position_screw_axes must have exactly 1-4 elements");
+        }
+        this->home_position_screw_axes_body = home_position_screw_axes;
+    }
+
+    void finger_model::set_home_position_screw_axes_space(std::vector<Eigen::VectorXd> home_position_screw_axes) {
+        if (home_position_screw_axes.size() < 1 || home_position_screw_axes.size() > 4) {
+            throw std::invalid_argument("home_position_screw_axes must have exactly 1-4 elements");
+        }
+        this->home_position_screw_axes_space = home_position_screw_axes;
+    }
+
+    void finger_model::set_home_position_body_frame(Eigen::MatrixXd home_position_body_frame) {
+        if (home_position_body_frame.rows() != 4 || home_position_body_frame.cols() != 4) {
+            throw std::invalid_argument("home_position_body_frame must be a 4x4 matrix");
+        }
+        this->home_position_body_frame = home_position_body_frame;
+    }
+
     void finger_model::set_tendon_routing_matrix(Eigen::MatrixXd tendon_routing_matrix) {
         if (tendon_routing_matrix.rows() > 3 || tendon_routing_matrix.cols() > 6) {
             throw std::invalid_argument("tendon_routing_matrix allows no more than 3 rows and 6 columns");
@@ -63,16 +72,16 @@ namespace fm {
         this->tendon_routing_matrix = tendon_routing_matrix;
     }
 
-    void finger_model::set_link_lengths(std::vector<double> link_lengths) {
+    void finger_model::set_link_lengths(Eigen::VectorXd link_lengths) {
         if (link_lengths.size() < 1 || link_lengths.size() > 4) {
             throw std::invalid_argument("link_lengths must have exactly 1-4 elements");
         }
         this->link_lengths = link_lengths;
     }
 
-    void finger_model::set_joint_angles(std::vector<double> joint_angles) {
-        if (joint_angles.size() != 3) {
-            throw std::invalid_argument("joint_angles must have exactly 3 elements");
+    void finger_model::set_joint_angles(Eigen::VectorXd joint_angles) {
+        if (joint_angles.size() < 1 || joint_angles.size() > 4) {
+            throw std::invalid_argument("joint_angles must have exactly 1-4 elements");
         }
         this->joint_angles = joint_angles;
     }
@@ -120,14 +129,13 @@ namespace fm {
     Eigen::VectorXd finger_model::forward_kinematics_body() {
         // Calculate forward kinematics
         Eigen::MatrixXd T = open_chain_kinematics::FKin_Body(this->home_position_body_frame, this->home_position_screw_axes_body, this->joint_angles);
-        return open_chain_kinematics::Matrix_Logarithm(T);
+        return rigid_body_motion::Matrix_Logarithm(T);
     }
 
     Eigen::VectorXd finger_model::forward_kinematics_space() {
         // Calculate forward kinematics
         Eigen::MatrixXd T = open_chain_kinematics::FKin_Space(this->home_position_body_frame, this->home_position_screw_axes_space, this->joint_angles);
-        return open_chain_kinematics::Matrix_Logarithm(T);
-
+        return rigid_body_motion::Matrix_Logarithm(T);
     }
 
 }

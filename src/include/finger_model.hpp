@@ -10,13 +10,15 @@ namespace fm {
     {
     public:
         finger_model(); // Default constructor
-        finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<double> link_lengths, std::vector<double> joint_angles); // Overloaded constructor
+        finger_model(Eigen::VectorXd link_lengths, Eigen::VectorXd joint_angles); // Overloaded constructor
         ~finger_model();
 
         // Setters and Getters
-        void set_home_position_screw_axes(std::vector<Eigen::VectorXd> home_position_screw_axes);
-        void set_link_lengths(std::vector<double> link_lengths);
-        void set_joint_angles(std::vector<double> joint_angles);
+        void set_home_position_screw_axes_body(std::vector<Eigen::VectorXd> home_position_screw_axes);
+        void set_home_position_screw_axes_space(std::vector<Eigen::VectorXd> home_position_screw_axes);
+        void set_home_position_body_frame(Eigen::MatrixXd home_position_body_frame);
+        void set_link_lengths(Eigen::VectorXd link_lengths);
+        void set_joint_angles(Eigen::VectorXd joint_angles);
         Eigen::VectorXd get_link_lengths();
         Eigen::VectorXd get_joint_angles();
 
@@ -28,9 +30,8 @@ namespace fm {
         // Member functions
         void calculate_finger_space_jacobian();
         void calculate_finger_body_jacobian();
-        Eigen::VectorXd forward_kinematics_body(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Blist, Eigen::VectorXd thetalist);
-        Eigen::VectorXd forward_kinematics_space(Eigen::MatrixXd M, std::vector<Eigen::VectorXd> Slist, Eigen::VectorXd thetalist);
-
+        Eigen::VectorXd forward_kinematics_body();
+        Eigen::VectorXd forward_kinematics_space();
 
     private:
         // Finger geometric information
@@ -45,8 +46,6 @@ namespace fm {
         Eigen::MatrixXd finger_body_jacobian;
         Eigen::MatrixXd tendon_routing_matrix;
         Eigen::MatrixXd motor_shaft_matrix;
-
-        
     };
 
 }
