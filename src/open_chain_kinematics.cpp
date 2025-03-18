@@ -76,6 +76,28 @@ namespace rigid_body_motion {
 
     Eigen::MatrixXd Matrix_Logarithm(const Eigen::MatrixXd &T){
         // Calculates the matrix logarithm of a rigid body motion
+        assert(T.rows() == 4 && T.cols() == 4 && "Input matrix must be 4x4");
+        assert(T.block(3, 0, 3, 3).isApprox(Eigen::RowVector4d(0, 0, 0, 1), 1e-10) && "Bottom row of input matrix must be [0, 0, 0, 1]");
+        Eigen::MatrixXd R = T.block(0, 0, 3, 3);
+        assert(R.transpose() * R == Eigen::MatrixXd::Identity(3, 3) && "Upper left 3x3 matrix must be orthonormal");
+
+        // Break down the transformation matrix into rotation matrix and translation vector (rotation matrix defined above)
+        Eigen::VectorXd v = T.block(0, 3, 2, 3);
+
+        double theta = acos((R.trace() - 1) / 2);
+        Eigen::MatrixXd omega_so3;
+        if (theta < 1e-10) {
+            omega_so3 = Eigen::MatrixXd::Zero(3, 3);
+        } else {
+            omega_so3 = (R - R.transpose()) / (2 * sin(theta));
+        }
+        Eigen::VectorXd omega = so3ToVec(omega_so3);
+        Eigen::MatrixXd G_inv = (Eigen::MatrixXd::Identity(3, 3) - 0.5 * omega_so3 + (1 / theta - 0.5 * (1 / tan(theta / 2))) * omega_so3 * omega_so3) / theta;
+        Eigen::VectorXd v = G_inv * v;
+        Eigen::VectorXd S(6);
+        S << omega, v;
+        return S * theta;
+
         
 
     }

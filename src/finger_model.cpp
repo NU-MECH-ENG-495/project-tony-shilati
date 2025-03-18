@@ -1,11 +1,22 @@
 #include "include/finger_model.hpp"
+#include "include/open_chain_kinematics.hpp"
 #include <iostream>
 #include <Eigen/Dense>
 #include <vector>
 
 namespace fm {
 
-    finger_model::finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<Eigen::VectorXd> home_position_screw_axes, std::vector<double> link_lengths, std::vector<double> joint_angles)
+    finger_model::finger_model()
+        : finger_space_jacobian(Eigen::MatrixXd::Zero(6, 3)),
+          finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
+          tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
+          link_lengths(4, 0.0),
+          joint_angles(3, 0.0) // Initialize joint_angles with 3 elements
+    {
+        // Default constructor implementation
+    }
+
+    finger_model::finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<double> link_lengths, std::vector<double> joint_angles)
         : finger_space_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           finger_body_jacobian(Eigen::MatrixXd::Zero(6, 3)),
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
@@ -29,8 +40,8 @@ namespace fm {
         if (joint_angles.size() < 1 || joint_angles.size() > 4) {
             throw std::invalid_argument("joint_angles must have exactly 1-4 elements");
         }
+
         this->home_position_body_frame = home_position_body_frame; // Initialize home_position_body_frame with the passed matrix
-        this->home_position_screw_axes = home_position_screw_axes; // Initialize home_position_screw_axes with the passed vector
         this->link_lengths = link_lengths; // Initialize link_lengths with the passed vector
         this->joint_angles = joint_angles; // Initialize joint_angles with the passed vector
     }

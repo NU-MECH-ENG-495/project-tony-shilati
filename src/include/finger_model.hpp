@@ -9,7 +9,8 @@ namespace fm {
     class finger_model
     {
     public:
-        finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<Eigen::VectorXd> home_position_screw_axes, std::vector<double> link_lengths, std::vector<double> joint_angles);
+        finger_model(); // Default constructor
+        finger_model(Eigen::MatrixXd home_position_body_frame, std::vector<double> link_lengths, std::vector<double> joint_angles); // Overloaded constructor
         ~finger_model();
 
         // Setters and Getters
