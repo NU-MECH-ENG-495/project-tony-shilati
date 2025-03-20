@@ -40,6 +40,24 @@ namespace rigid_body_motion {
         return R;
     }
 
+    Eigen::VectorXd RotationLogarithm (const Eigen::MatrixXd &R){
+        // Calculates the logarithm of a rotation matrix
+        assert(R.rows() == 3 && R.cols() == 3 && "Input matrix must be 3x3");
+        assert(R.determinant() == 1 && "Input matrix must be a rotation matrix");
+
+        // If theta is 0, return a zero vector
+        if (R.isApprox(Eigen::MatrixXd::Identity(3, 3), 1e-10)) {
+            return Eigen::VectorXd::Zero(3);
+        }
+
+        // If theta is not zero: logarithm
+        double theta = acos((R.trace() - 1) / 2);
+        Eigen::MatrixXd omega_so3 = (R - R.transpose()) / (2 * sin(theta));
+        Eigen::VectorXd omega = so3ToVec(omega_so3);
+        return omega * theta;
+    }
+
+
     Eigen::MatrixXd Adjoint(const Eigen::MatrixXd &T){
         // Calculates the adjoint representation of a transformation matrix
         assert(T.rows() == 4 && T.cols() == 4 && "Input matrix must be 4x4");
@@ -76,24 +94,25 @@ namespace rigid_body_motion {
 
     Eigen::MatrixXd Matrix_Logarithm(const Eigen::MatrixXd &T){
         // Calculates the matrix logarithm of a rigid body motion
-        assert(T.rows() == 4 && T.cols() == 4 && "Input matrix must be 4x4");
-        assert(T.block(3, 0, 3, 3).isApprox(Eigen::RowVector4d(0, 0, 0, 1), 1e-10) && "Bottom row of input matrix must be [0, 0, 0, 1]");
-        Eigen::MatrixXd R = T.block(0, 0, 3, 3);
-        assert(R.transpose() * R == Eigen::MatrixXd::Identity(3, 3) && "Upper left 3x3 matrix must be orthonormal");
 
-        // Break down the transformation matrix into rotation matrix and translation vector (rotation matrix defined above)
+        // Decompose the input matrix into rotation and translation
+        Eigen::MatrixXd R = T.block(0, 0, 3, 3);
         Eigen::VectorXd p = T.block(0, 3, 2, 3);
 
+        // Verify that the input matrix is in SE3
+        assert(T.rows() == 4 && T.cols() == 4 && "Input matrix must be in SE3");
+        assert(T.block(3, 0, 3, 3).isApprox(Eigen::RowVector4d(0, 0, 0, 1), 1e-10) && "Input matrix must be in SE3");
+        assert(R.transpose() * R == Eigen::MatrixXd::Identity(3, 3) && "Input matrix must be in SE3");
+
+
+        // Calculate the matrix logarithm
         double theta = acos((R.trace() - 1) / 2);
-        Eigen::MatrixXd omega_so3;
-        if (theta < 1e-10) {
-            omega_so3 = Eigen::MatrixXd::Zero(3, 3);
-        } else {
-            omega_so3 = (R - R.transpose()) / (2 * sin(theta));
-        }
-        Eigen::VectorXd omega = so3ToVec(omega_so3);
-        Eigen::MatrixXd G_inv = (Eigen::MatrixXd::Identity(3, 3) - 0.5 * omega_so3 + (1 / theta - 0.5 * (1 / tan(theta / 2))) * omega_so3 * omega_so3) / theta;
-        Eigen::VectorXd v = G_inv * v;
+
+    
+        Eigen::VectorXd omega = RotationLogarithm(R);
+        Eigen::MatrixXd I = Eigen::MatrixXd::Identity(3, 3);
+        Eigen::MatrixXd G_inv = (1/theta) * I - 1/2 * VecToso3(omega) + (1/theta - 1/2 / tan(theta/2)) * VecToso3(omega) * VecToso3(omega);
+        Eigen::VectorXd v = G_inv * p;
         Eigen::VectorXd S(6);
         S << omega, v;
         return S * theta;
@@ -142,8 +161,9 @@ namespace open_chain_kinematics {
 
         T = M * T;
 
-
-        
+        // Return the Adjoint of the final transformation matrix
+        return rigid_body_motion::Adjoint(T);
+ 
     }
 
 } // namespace open_chain_kinematics
