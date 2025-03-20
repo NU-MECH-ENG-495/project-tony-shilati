@@ -82,7 +82,7 @@ namespace rigid_body_motion {
         assert(R.transpose() * R == Eigen::MatrixXd::Identity(3, 3) && "Upper left 3x3 matrix must be orthonormal");
 
         // Break down the transformation matrix into rotation matrix and translation vector (rotation matrix defined above)
-        Eigen::VectorXd v = T.block(0, 3, 2, 3);
+        Eigen::VectorXd p = T.block(0, 3, 2, 3);
 
         double theta = acos((R.trace() - 1) / 2);
         Eigen::MatrixXd omega_so3;

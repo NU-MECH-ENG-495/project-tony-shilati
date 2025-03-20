@@ -15,15 +15,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 )
 
-# Fetch SFML 3.0
-include(FetchContent)
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.0
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM)
-FetchContent_MakeAvailable(SFML)
+# Find Qt5
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 # Find Eigen3
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
@@ -57,22 +50,18 @@ target_link_libraries(finger_model PUBLIC
 # Add the executables
 add_executable(main src/main.cpp src/render_finger.cpp src/finger_model.cpp)
 
-# Link the necessary SFML and Eigen libraries
+# Link the necessary Qt and Eigen libraries
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE
-    SFML::Graphics
-    SFML::Window
-    SFML::System
+    Qt5::Widgets
     Eigen3::Eigen
     open_chain_kinematics
     finger_model
 )
 
-# Link SFML to the project library
+# Link Qt to the project library
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    SFML::Graphics
-    SFML::Window
-    SFML::System
+    Qt5::Widgets
 )
 
 # Enable testing
