@@ -26,9 +26,9 @@ protected:
         // Draw Base Link
         painter.setBrush(Qt::red);
         painter.save();
-        painter.translate(320, 450);
-        painter.rotate(90);
-        painter.drawRect(-75, -20, 150, 40);
+        painter.translate(0, 400);
+        painter.rotate(0);
+        painter.drawRect(0, 20, 150, 40);
         painter.restore();
 
         // Draw Link1

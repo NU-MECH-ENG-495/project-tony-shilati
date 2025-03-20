@@ -1,10 +1,11 @@
 #include <iostream>
 #include "include/finger_model.hpp"
+#include "include/render_finger.hpp"
 #include <Eigen/Dense>
 #include <math.h>
 #include <vector>
 
-int main() {
+int main(int argc, char *argv[]) {
     std::cout << "Finger model program started." << std::endl;
 
     // Create a vector of link lengths
@@ -44,6 +45,10 @@ int main() {
         std::cout << length << " ";
     }
     std::cout << std::endl;
+    
+
+    // Render the finger
+    render_finger();
     
     // You can add code here to create and use the finger_model class
     return 0;
