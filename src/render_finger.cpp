@@ -1,8 +1,9 @@
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
-#include <SFML/Graphics.hpp>
-#include <cstdlib>
+#include <QApplication>
+#include <QWidget>
+#include <QPainter>
+#include <QTimer>
+#include <QKeyEvent>
+#include <math.h>
 #include "include/render_finger.hpp" // Include the header file
 
 ////////////////////////////////////////////////////////////
@@ -11,65 +12,133 @@
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 600
 
-void render_finger()
+class FingerWidget : public QWidget
 {
-    // Create the window of the application with a stencil buffer
-    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}),
-                            "SFML Stencil",
-                            sf::Style::Titlebar | sf::Style::Close,
-                            sf::State::Windowed,
-                            sf::ContextSettings{0 /* depthBits */, 8 /* stencilBits */});
-    window.setVerticalSyncEnabled(true);
-
-
-    sf::RectangleShape Base_Link({150, 40});
-    Base_Link.setFillColor(sf::Color::Red);
-    Base_Link.setPosition({320, 450});
-    Base_Link.setRotation(sf::degrees(90));
-
-    sf::RectangleShape Link1({150, 40});
-    Link1.setFillColor(sf::Color::Red);
-    Link1.setPosition({300, 430});
-    Link1.setRotation(sf::degrees(0));
-
-    sf::CircleShape Joint1(30);
-    Joint1.setFillColor(sf::Color::Blue);
-    Joint1.setPosition({270, 420});
-    Joint1.setRotation(sf::degrees(0));
-
-    while (window.isOpen())
+public:
+    FingerWidget(QWidget *parent = nullptr)
+        : QWidget(parent), base_angle(0), link1_angle(45), link2_angle(30), link3_angle(15)
     {
-        // Handle events
-        while (const std::optional event = window.pollEvent())
-        {
-            // Window closed: exit
-            if (event->is<sf::Event::Closed>())
-            {
-                window.close();
-                break;
-            }
-        }
-
-        // Clear the window color to white and the initial stencil buffer values to 0
-        window.clear(sf::Color::White, 0);
-
-        /*
-        `* Draw Finger
-         * Joints on Level 7-5 and links on level 4-1
-        `*/ 
-
-        window.draw(Base_Link,
-                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 4, ~0u, false});
-
-        window.draw(Link1,
-                    sf::StencilMode{sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 3, ~0u, false});
-
-        window.draw(Joint1,
-                    sf::StencilMode{sf::StencilComparison::Greater, sf::StencilUpdateOperation::Replace, 7, ~0u, false});
-
-        // Display things on screen
-        window.display();
+        // Set up a timer to update the positions periodically
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, this, &FingerWidget::updatePositions);
+        timer->start(100); // Update every 100 ms
     }
 
-    // return EXIT_SUCCESS;
+protected:
+    void paintEvent(QPaintEvent *event) override
+    {
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        // Clear the window color to white
+        painter.fillRect(rect(), Qt::white);
+
+        // Draw Base Link
+        painter.setBrush(Qt::red);
+        painter.save();
+        painter.translate(0, 400);
+        painter.drawRect(0, 20, 150, 40);
+        painter.restore();
+
+        // Draw Link1
+        painter.setBrush(Qt::red);
+        painter.save();
+        painter.translate(150, 380);
+        painter.rotate(link1_angle);
+        painter.drawRect(0, 20, 150, 40);
+        painter.restore();
+
+        // Draw Joint1
+        painter.setBrush(Qt::blue);
+        painter.save();
+        painter.translate(150, 380);
+        painter.rotate(link1_angle);
+        painter.drawEllipse(-30, 30, 60, 60);
+        painter.restore();
+
+        // Draw Link2
+        painter.setBrush(Qt::red);
+        painter.save();
+        painter.translate(150, 440);
+        painter.rotate(link2_angle);
+        painter.drawRect(0, -20, 150, 40);
+        painter.restore();
+
+        // Draw Joint2
+        painter.setBrush(Qt::blue);
+        painter.save();
+        painter.translate(300, 440);
+        painter.drawEllipse(-30, -30, 60, 60);
+        painter.restore();
+
+        // Draw Link3
+        painter.setBrush(Qt::red);
+        painter.save();
+        painter.translate(450, 440);
+        painter.rotate(link3_angle);
+        painter.drawRect(0, -20, 150, 40);
+        painter.restore();
+
+        // Draw Joint3
+        painter.setBrush(Qt::blue);
+        painter.save();
+        painter.translate(450, 440);
+        painter.drawEllipse(-30, -30, 60, 60);
+        painter.restore();
+    }
+
+    void keyPressEvent(QKeyEvent *event) override
+    {
+        if (event->key() == Qt::Key_P)
+        {
+            // Increment angles when 'P' is pressed
+            updatePositions();
+        }
+        else if (event->key() == Qt::Key_E)
+        {
+            // Exit application when 'E' is pressed
+            QApplication::quit();
+        }
+    }
+
+private slots:
+    void updatePositions()
+    {
+        // Update the angles to move the shapes
+        base_angle += 1;
+        link1_angle += 1;
+        link2_angle += 1;
+        link3_angle += 1;
+
+        // Trigger a repaint
+        update();
+    }
+
+private:
+    int base_angle;
+    int link1_angle = 0;
+    int link2_angle = 0;
+    int link3_angle = 0;
+
+    int link1_length = 150;
+    int link2_length = 150;
+    int link3_length = 150;
+
+    int J1[2] = {0, 0};
+    int J2[2] = {0, 0};
+    int J3[2] = {0, 0};
+};
+
+void render_finger()
+{
+    int argc = 0;
+    char *argv[] = {nullptr};
+    QApplication app(argc, argv);
+
+    FingerWidget window;
+    window.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    window.setWindowTitle("Qt Finger");
+    window.show();
+
+    app.exec();
 }

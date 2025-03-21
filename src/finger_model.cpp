@@ -12,8 +12,8 @@ namespace fm {
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
           link_lengths(Eigen::VectorXd()),
           joint_angles(Eigen::VectorXd()),
-          home_position_screw_axes_body(std::vector<Eigen::VectorXd>()),
-          home_position_screw_axes_space(std::vector<Eigen::VectorXd>())
+          home_position_screw_axes_body(std::vector<Eigen::VectorXd>(3)),
+          home_position_screw_axes_space(std::vector<Eigen::VectorXd>(3))
     {
         // Default constructor implementation
     }
@@ -24,8 +24,8 @@ namespace fm {
           tendon_routing_matrix(Eigen::MatrixXd::Zero(3, 6)),
           link_lengths(link_lengths),
           joint_angles(joint_angles),
-          home_position_screw_axes_body(std::vector<Eigen::VectorXd>()),
-          home_position_screw_axes_space(std::vector<Eigen::VectorXd>())
+          home_position_screw_axes_body(std::vector<Eigen::VectorXd>(3)),
+          home_position_screw_axes_space(std::vector<Eigen::VectorXd>(3))
     {
         if (link_lengths.size() < 1 || link_lengths.size() > 4) {
             throw std::invalid_argument("link_lengths must have exactly 1-4 elements");
@@ -136,6 +136,14 @@ namespace fm {
         // Calculate forward kinematics
         Eigen::MatrixXd T = open_chain_kinematics::FKin_Space(this->home_position_body_frame, this->home_position_screw_axes_space, this->joint_angles);
         return rigid_body_motion::Matrix_Logarithm(T);
+    }
+
+    Eigen::VectorXd finger_model::inverse_kinematics_body(const Eigen::MatrixXd& desired_pose) {
+        return open_chain_kinematics::IKin_Body(this->home_position_body_frame, this->home_position_screw_axes_body, desired_pose);
+    }
+
+    Eigen::VectorXd finger_model::inverse_kinematics_space(const Eigen::MatrixXd& desired_pose) {
+        return open_chain_kinematics::IKin_Space(this->home_position_body_frame, this->home_position_screw_axes_space, desired_pose);
     }
 
 }
