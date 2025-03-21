@@ -43,7 +43,7 @@ protected:
         // Draw Link1
         painter.setBrush(Qt::red);
         painter.save();
-        painter.translate(150, 380);
+        painter.translate(150, 400);
         painter.rotate(link1_angle);
         painter.drawRect(0, 20, 150, 40);
         painter.restore();
@@ -66,7 +66,10 @@ protected:
         // Draw Joint2
         painter.setBrush(Qt::blue);
         painter.save();
-        painter.translate(300, 440);
+        painter.translate(150, 380);
+        painter.rotate(link1_angle);
+        painter.translate(150, 0);
+        painter.rotate(link2_angle);
         painter.drawEllipse(-30, -30, 60, 60);
         painter.restore();
 
