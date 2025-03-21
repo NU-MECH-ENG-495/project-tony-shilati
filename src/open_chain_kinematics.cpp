@@ -166,4 +166,88 @@ namespace open_chain_kinematics {
  
     }
 
+    Eigen::VectorXd IKin_Space (const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::MatrixXd T) {
+        // Inverse kinematics in the space frame
+        assert(S_list.size() == T.cols() && "S_list and T must have the same number of columns");
+        for (const auto& S : S_list) {
+            assert(S.size() == 6 && "Each element of S_list must be a 6-vector");
+        }
+
+        // Initialize the theta list
+        Eigen::VectorXd theta_list(T.cols());
+        theta_list.setZero();
+
+        // Initialize the error
+        double error = 1e10;
+        double tol = 1e-6;
+        int max_iter = 1000;
+        int iter = 0;
+
+        // Iterate until the error is below the tolerance
+        while (error > tol && iter < max_iter) {
+            // Calculate the current transformation matrix
+            Eigen::MatrixXd T_current = FKin_Space(M, S_list, theta_list);
+
+            // Calculate the error
+            Eigen::MatrixXd T_inv = T_current.inverse();
+            Eigen::MatrixXd T_error = T_inv * T;
+
+            // Calculate the twist
+            Eigen::VectorXd S_error = rigid_body_motion::Matrix_Logarithm(T_error);
+
+            // Update the theta list
+            theta_list = theta_list + S_error;
+
+            // Update the error
+            error = S_error.norm();
+            iter++;
+        }
+
+        return theta_list;
+
+    }
+
+    Eigen::VectorXd IKin_Body (const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::MatrixXd T) {
+        // Inverse kinematics in the body frame
+        /*
+        assert(B_list.size() == T.cols() && "B_list and T must have the same number of columns");
+        for (const auto& B : B_list) {
+            assert(B.size() == 6 && "Each element of B_list must be a 6-vector");
+        }
+            */
+
+        // Initialize the theta list
+        Eigen::VectorXd theta_list(T.cols());
+        theta_list.setZero();
+
+        // Initialize the error
+        double error = 1e10;
+        double tol = 1e-6;
+        int max_iter = 1000;
+        int iter = 0;
+
+        // Iterate until the error is below the tolerance
+        while (error > tol && iter < max_iter) {
+            // Calculate the current transformation matrix
+            Eigen::MatrixXd T_current = FKin_Body(M, B_list, theta_list);
+
+            // Calculate the error
+            Eigen::MatrixXd T_inv = T_current.inverse();
+            Eigen::MatrixXd T_error = T_inv * T;
+
+            // Calculate the twist
+            Eigen::VectorXd B_error = rigid_body_motion::Matrix_Logarithm(T_error);
+
+            // Update the theta list
+            theta_list = theta_list + B_error;
+
+            // Update the error
+            error = B_error.norm();
+            iter++;
+        }
+
+        return theta_list;
+
+    }
+
 } // namespace open_chain_kinematics

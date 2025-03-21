@@ -32,6 +32,8 @@ namespace fm {
         void calculate_finger_body_jacobian();
         Eigen::VectorXd forward_kinematics_body();
         Eigen::VectorXd forward_kinematics_space();
+        Eigen::VectorXd inverse_kinematics_body(const Eigen::MatrixXd& desired_pose);
+        Eigen::VectorXd inverse_kinematics_space(const Eigen::MatrixXd& desired_pose);
 
     private:
         // Finger geometric information

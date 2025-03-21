@@ -18,6 +18,8 @@ namespace rigid_body_motion {
 namespace open_chain_kinematics {
     Eigen::MatrixXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::VectorXd theta_list);
     Eigen::MatrixXd FKin_Body(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::VectorXd theta_list);
+    Eigen::VectorXd IKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::MatrixXd T);
+    Eigen::VectorXd IKin_Body(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::MatrixXd T);
 
 } // namespace open_chain_kinematics
 
