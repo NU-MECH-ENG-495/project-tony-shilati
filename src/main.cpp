@@ -33,23 +33,18 @@ int main(int argc, char *argv[]) {
                                 0, 0, 1, 0,
                                 0, 0, 0, 1;
 
-    
     // Set the finger's home position screw axes and home position in the body frame
     finger.set_home_position_screw_axes_space(home_position_screw_axes);
     finger.set_home_position_body_frame(home_position_body_frame);
-
-    
 
     std::cout << "Link lengths: ";
     for (const auto& length : finger.get_link_lengths()) {
         std::cout << length << " ";
     }
     std::cout << std::endl;
-    
 
     // Render the finger
     render_finger();
-    
-    // You can add code here to create and use the finger_model class
+
     return 0;
 }
