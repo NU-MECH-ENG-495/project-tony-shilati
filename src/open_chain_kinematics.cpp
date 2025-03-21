@@ -209,10 +209,12 @@ namespace open_chain_kinematics {
 
     Eigen::VectorXd IKin_Body (const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::MatrixXd T) {
         // Inverse kinematics in the body frame
+        /*
         assert(B_list.size() == T.cols() && "B_list and T must have the same number of columns");
         for (const auto& B : B_list) {
             assert(B.size() == 6 && "Each element of B_list must be a 6-vector");
         }
+            */
 
         // Initialize the theta list
         Eigen::VectorXd theta_list(T.cols());
