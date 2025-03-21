@@ -138,4 +138,12 @@ namespace fm {
         return rigid_body_motion::Matrix_Logarithm(T);
     }
 
+    Eigen::VectorXd finger_model::inverse_kinematics_body(const Eigen::MatrixXd& desired_pose) {
+        return open_chain_kinematics::IKin_Body(this->home_position_body_frame, this->home_position_screw_axes_body, desired_pose);
+    }
+
+    Eigen::VectorXd finger_model::inverse_kinematics_space(const Eigen::MatrixXd& desired_pose) {
+        return open_chain_kinematics::IKin_Space(this->home_position_body_frame, this->home_position_screw_axes_space, desired_pose);
+    }
+
 }

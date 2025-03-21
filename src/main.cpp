@@ -43,6 +43,18 @@ int main(int argc, char *argv[]) {
     }
     std::cout << std::endl;
 
+    // Define desired end effector pose
+    Eigen::MatrixXd desired_pose = Eigen::MatrixXd::Identity(4, 4);
+    desired_pose(0, 3) = 2.0; // Set desired x position
+    desired_pose(1, 3) = 1.0; // Set desired y position
+    desired_pose(2, 3) = 1.0; // Set desired z position
+
+    // Calculate inverse kinematics
+    Eigen::VectorXd ik_result = finger.inverse_kinematics_body(desired_pose);
+
+    // Print the result
+    std::cout << "Inverse Kinematics Result (Body Frame): " << ik_result.transpose() << std::endl;
+
     // Render the finger
     render_finger();
 
