@@ -52,6 +52,7 @@ protected:
         painter.setBrush(Qt::blue);
         painter.save();
         painter.translate(150, 380);
+        painter.rotate(link1_angle);
         painter.drawEllipse(-30, 30, 60, 60);
         painter.restore();
 
