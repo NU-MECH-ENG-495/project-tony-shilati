@@ -5,6 +5,9 @@
 #include <Eigen/Dense>
 #include "../../src/include/open_chain_kinematics.hpp"
 
+/**
+ * @brief Test the VecToso3 function.
+ */
 TEST(RigidBodyTest, VecToso3){
     Eigen::VectorXd omega(3);
     omega << 1, 2, 3;
@@ -16,6 +19,9 @@ TEST(RigidBodyTest, VecToso3){
     ASSERT_TRUE(so3mat.isApprox(expected));
 }
 
+/**
+ * @brief Test the so3ToVec function.
+ */
 TEST(RigidBodyTest, so3ToVec){
     Eigen::MatrixXd so3mat(3, 3);
     so3mat << 0, -3, 2,
@@ -27,6 +33,9 @@ TEST(RigidBodyTest, so3ToVec){
     ASSERT_TRUE(omega.isApprox(expected));
 }
 
+/**
+ * @brief Test the Rodriguez function with a non-zero angle.
+ */
 TEST(RigidBodyTest, Rodriguez_1){
 
     // Define angle and axis of roation
@@ -45,6 +54,9 @@ TEST(RigidBodyTest, Rodriguez_1){
     ASSERT_TRUE(R.isApprox(expected));
 }
 
+/**
+ * @brief Test the Rodriguez function with a zero angle.
+ */
 TEST(RigidBodyTest, Rodriguez_2){
     Eigen::VectorXd omega(3);
     omega << 1, 2, 3;
@@ -55,6 +67,9 @@ TEST(RigidBodyTest, Rodriguez_2){
     ASSERT_TRUE(R.isApprox(expected));
 }
 
+/**
+ * @brief Test the RotationLogarithm function with an identity matrix.
+ */
 TEST(RigidBodyTest, RotationLogarithm_1){
     Eigen::MatrixXd R = Eigen::MatrixXd::Identity(3, 3);
     Eigen::VectorXd omega = rigid_body_motion::RotationLogarithm(R);
@@ -63,6 +78,9 @@ TEST(RigidBodyTest, RotationLogarithm_1){
     ASSERT_TRUE(omega.isApprox(expected));
 }
 
+/**
+ * @brief Test the RotationLogarithm function with a 90-degree rotation matrix.
+ */
 TEST(RigidBodyTest, RotationLogarithm_2){
     Eigen::MatrixXd R(3, 3);
     R << 0, -1, 0,
@@ -74,7 +92,9 @@ TEST(RigidBodyTest, RotationLogarithm_2){
     ASSERT_TRUE(omega.isApprox(expected));
 }
 
-
+/**
+ * @brief Test the Adjoint function.
+ */
 TEST(RigidBodyTest, Adjoint){
     // Define a translationa and roation
     Eigen::VectorXd p(3); p << 1, 2, 3;
@@ -97,16 +117,17 @@ TEST(RigidBodyTest, Adjoint){
     ASSERT_TRUE(Ad_T.isApprox(expected));
 }
 
+/**
+ * @brief Test the Matrix_Exponential function.
+ */
 TEST(RigidBodyTest, Matrix_Exponential){
     // Define a twist
     Eigen::VectorXd S(6);
     S << 1, 2, 3, 4, 5, 6;
     float theta = M_PI/2;
 
-
     // Evaluate the matrix exponential
     Eigen::MatrixXd exp_S_theta = rigid_body_motion::Matrix_Exponential(S, theta);
-
 
     // Construct the expected result
     Eigen::VectorXd omega(3); omega << 1, 2, 3;
@@ -118,8 +139,6 @@ TEST(RigidBodyTest, Matrix_Exponential){
     Eigen::MatrixXd expected(4, 4);
     expected << R, V,
                 0, 0, 0, 1;
-
-        
 
     ASSERT_TRUE(exp_S_theta.isApprox(expected));
 }

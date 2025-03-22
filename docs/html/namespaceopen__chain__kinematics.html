@@ -111,16 +111,12 @@ $(function(){initNavTree('namespaceopen__chain__kinematics.html',''); initResiza
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:acb71966109633ae10cbcd52e4f6cb546" id="r_acb71966109633ae10cbcd52e4f6cb546"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb71966109633ae10cbcd52e4f6cb546">FKin_Space</a> (const Eigen::MatrixXd M, const std::vector&lt; Eigen::VectorXd &gt; S_list, const Eigen::VectorXd theta_list)</td></tr>
-<tr class="memdesc:acb71966109633ae10cbcd52e4f6cb546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forward kinematics in the space frame.  <br /></td></tr>
 <tr class="separator:acb71966109633ae10cbcd52e4f6cb546"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4533528a50f55fba6dbcb9ea134b622f" id="r_a4533528a50f55fba6dbcb9ea134b622f"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4533528a50f55fba6dbcb9ea134b622f">FKin_Body</a> (const Eigen::MatrixXd M, const std::vector&lt; Eigen::VectorXd &gt; B_list, const Eigen::VectorXd theta_list)</td></tr>
-<tr class="memdesc:a4533528a50f55fba6dbcb9ea134b622f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forward kinematics in the body frame.  <br /></td></tr>
 <tr class="separator:a4533528a50f55fba6dbcb9ea134b622f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b1004c57cea906972580fd05c5e59fd" id="r_a4b1004c57cea906972580fd05c5e59fd"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b1004c57cea906972580fd05c5e59fd">IKin_Space</a> (const Eigen::MatrixXd M, const std::vector&lt; Eigen::VectorXd &gt; S_list, const Eigen::MatrixXd T)</td></tr>
-<tr class="memdesc:a4b1004c57cea906972580fd05c5e59fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverse kinematics in the space frame.  <br /></td></tr>
 <tr class="separator:a4b1004c57cea906972580fd05c5e59fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab32458c927e43b02e3e71b7050c3d814" id="r_ab32458c927e43b02e3e71b7050c3d814"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab32458c927e43b02e3e71b7050c3d814">IKin_Body</a> (const Eigen::MatrixXd M, const std::vector&lt; Eigen::VectorXd &gt; B_list, const Eigen::MatrixXd T)</td></tr>
-<tr class="memdesc:ab32458c927e43b02e3e71b7050c3d814"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverse kinematics in the body frame.  <br /></td></tr>
 <tr class="separator:ab32458c927e43b02e3e71b7050c3d814"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -148,17 +144,6 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Forward kinematics in the body frame. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">M</td><td>Home configuration matrix. </td></tr>
-    <tr><td class="paramname">B_list</td><td>List of screw axes in the body frame. </td></tr>
-    <tr><td class="paramname">theta_list</td><td>List of joint angles. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>4x4 transformation matrix. </dd></dl>
-
 </div>
 </div>
 <a id="acb71966109633ae10cbcd52e4f6cb546" name="acb71966109633ae10cbcd52e4f6cb546"></a>
@@ -184,17 +169,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Forward kinematics in the space frame. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">M</td><td>Home configuration matrix. </td></tr>
-    <tr><td class="paramname">S_list</td><td>List of screw axes in the space frame. </td></tr>
-    <tr><td class="paramname">theta_list</td><td>List of joint angles. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>4x4 transformation matrix. </dd></dl>
 
 </div>
 </div>
@@ -222,17 +196,6 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Inverse kinematics in the body frame. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">M</td><td>Home configuration matrix. </td></tr>
-    <tr><td class="paramname">B_list</td><td>List of screw axes in the body frame. </td></tr>
-    <tr><td class="paramname">T</td><td>Desired end-effector configuration. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>List of joint angles. </dd></dl>
-
 </div>
 </div>
 <a id="a4b1004c57cea906972580fd05c5e59fd" name="a4b1004c57cea906972580fd05c5e59fd"></a>
@@ -258,17 +221,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Inverse kinematics in the space frame. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">M</td><td>Home configuration matrix. </td></tr>
-    <tr><td class="paramname">S_list</td><td>List of screw axes in the space frame. </td></tr>
-    <tr><td class="paramname">T</td><td>Desired end-effector configuration. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>List of joint angles. </dd></dl>
 
 </div>
 </div>

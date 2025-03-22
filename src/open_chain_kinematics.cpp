@@ -126,6 +126,9 @@ namespace open_chain_kinematics {
 
     Eigen::MatrixXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::VectorXd theta_list) {
         // Forward kinematics in the space frame
+        assert(M.rows() == 4 && M.cols() == 4 && "Input matrix M must be 4x4");
+        assert(M.block(0, 0, 3, 3).transpose() * M.block(0, 0, 3, 3) == Eigen::MatrixXd::Identity(3, 3) && "Rotation part of M must be orthogonal");
+        assert(M.block(3, 0, 1, 3).isZero(1e-10) && M(3, 3) == 1 && "Last row of M must be [0, 0, 0, 1]");
         assert(S_list.size() == theta_list.size() && "S_list and theta_list must have the same size");
         for (const auto& S : S_list) {
             assert(S.size() == 6 && "Each element of S_list must be a 6-vector");
@@ -134,7 +137,7 @@ namespace open_chain_kinematics {
         // Product of exponentials formula
         Eigen::MatrixXd T = Eigen::MatrixXd::Identity(4, 4);
         for (int i = 0; i < S_list.size(); i++) {
-            T = T * rigid_body_motion::Matrix_Exponential(S_list[i], theta_list[i]);
+            T = T * rigid_body_motion::Matrix_Exponential(S_list[i], theta_list(i));
         }
 
         T = T * M;
