@@ -12,9 +12,16 @@
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 600
 
+/**
+ * @brief Class representing the finger widget for rendering.
+ */
 class FingerWidget : public QWidget
 {
 public:
+    /**
+     * @brief Constructor for the FingerWidget class.
+     * @param parent Parent widget.
+     */
     FingerWidget(QWidget *parent = nullptr)
         : QWidget(parent), base_angle(0), link1_angle(45), link2_angle(30), link3_angle(15)
     {
@@ -25,6 +32,10 @@ public:
     }
 
 protected:
+    /**
+     * @brief Paint event handler for rendering the finger.
+     * @param event Paint event.
+     */
     void paintEvent(QPaintEvent *event) override
     {
         QPainter painter(this);
@@ -44,7 +55,6 @@ protected:
         painter.setBrush(Qt::red);
         painter.save();
         painter.translate(150, 400);
-
         painter.rotate(link1_angle);
         painter.drawRect(0, 20, 150, 40);
         painter.restore();
@@ -53,7 +63,6 @@ protected:
         painter.setBrush(Qt::blue);
         painter.save();
         painter.translate(150, 380);
-
         painter.drawEllipse(-30, 30, 60, 60);
         painter.restore();
 
@@ -92,6 +101,10 @@ protected:
         painter.restore();
     }
 
+    /**
+     * @brief Key press event handler.
+     * @param event Key event.
+     */
     void keyPressEvent(QKeyEvent *event) override
     {
         if (event->key() == Qt::Key_P)
@@ -107,6 +120,9 @@ protected:
     }
 
 private slots:
+    /**
+     * @brief Slot to update the positions of the finger links.
+     */
     void updatePositions()
     {
         // Update the angles to move the shapes
@@ -134,6 +150,9 @@ private:
     int J3[2] = {0, 0};
 };
 
+/**
+ * @brief Function to render the finger using Qt.
+ */
 void render_finger()
 {
     int argc = 0;

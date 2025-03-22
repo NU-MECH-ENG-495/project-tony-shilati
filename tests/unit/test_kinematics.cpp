@@ -2,6 +2,9 @@
 #include <Eigen/Dense>
 #include "../../src/include/open_chain_kinematics.hpp"
 
+/**
+ * @brief Test the forward kinematics in space frame.
+ */
 TEST(KinematicsTest, FKin_Space) {
     Eigen::MatrixXd M = Eigen::MatrixXd::Identity(4, 4);
     std::vector<Eigen::VectorXd> S_list = {Eigen::VectorXd::Zero(6), Eigen::VectorXd::Zero(6)};
@@ -12,6 +15,9 @@ TEST(KinematicsTest, FKin_Space) {
     ASSERT_TRUE(T.isApprox(M));
 }
 
+/**
+ * @brief Test the forward kinematics in body frame.
+ */
 TEST(KinematicsTest, FKin_Body) {
     Eigen::MatrixXd M = Eigen::MatrixXd::Identity(4, 4);
     std::vector<Eigen::VectorXd> B_list = {Eigen::VectorXd::Zero(6), Eigen::VectorXd::Zero(6)};
@@ -22,6 +28,9 @@ TEST(KinematicsTest, FKin_Body) {
     ASSERT_TRUE(T.isApprox(M));
 }
 
+/**
+ * @brief Test the inverse kinematics in space frame.
+ */
 TEST(KinematicsTest, IKin_Space) {
     Eigen::MatrixXd M = Eigen::MatrixXd::Identity(4, 4);
     std::vector<Eigen::VectorXd> S_list = {Eigen::VectorXd::Zero(6), Eigen::VectorXd::Zero(6)};
@@ -31,6 +40,9 @@ TEST(KinematicsTest, IKin_Space) {
     ASSERT_TRUE(theta_list.isZero());
 }
 
+/**
+ * @brief Test the inverse kinematics in body frame.
+ */
 TEST(KinematicsTest, IKin_Body) {
     Eigen::MatrixXd M = Eigen::MatrixXd::Identity(4, 4);
     std::vector<Eigen::VectorXd> B_list = {Eigen::VectorXd::Zero(6), Eigen::VectorXd::Zero(6)};

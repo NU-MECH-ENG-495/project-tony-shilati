@@ -1,0 +1,14 @@
+# Doxyfile configuration for Doxygen
+
+# Project related settings
+PROJECT_NAME           = "Final Project"
+PROJECT_NUMBER         = "1.0"
+OUTPUT_DIRECTORY       = "docs"
+GENERATE_LATEX         = NO
+
+# Build related settings
+EXTRACT_ALL            = YES
+INPUT                  = @CMAKE_SOURCE_DIR@/src @CMAKE_SOURCE_DIR@/tests
+RECURSIVE              = YES
+
+# ...additional Doxygen settings...
