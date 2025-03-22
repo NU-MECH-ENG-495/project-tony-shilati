@@ -5,6 +5,11 @@
 
 namespace rigid_body_motion {
 
+    /**
+     * @brief Converts a 3-vector to its so3 representation.
+     * @param omega A 3-vector.
+     * @return A 3x3 skew-symmetric matrix.
+     */
     Eigen::MatrixXd VecToso3(const Eigen::VectorXd &omega){
         // Converts a 3-vector to its s03 representation
         assert(omega.size() == 3 && "Input vector must have 3 components");     // Check vector size 
@@ -17,6 +22,11 @@ namespace rigid_body_motion {
 
     }
 
+    /**
+     * @brief Converts an so3 matrix to a vector.
+     * @param so3mat A 3x3 skew-symmetric matrix.
+     * @return A 3-vector.
+     */
     Eigen::VectorXd so3ToVec(const Eigen::MatrixXd &so3mat){
         // Converts an so3 matrix to a vector
         assert(so3mat.rows() == 3 && so3mat.cols() == 3 && "Input matrix must be 3x3");
@@ -29,6 +39,12 @@ namespace rigid_body_motion {
 
     }
 
+    /**
+     * @brief Implements Rodriguez formula to calculate a rotation matrix from an axis and angle.
+     * @param omega A 3-vector representing the axis of rotation.
+     * @param theta The angle of rotation in radians.
+     * @return A 3x3 rotation matrix.
+     */
     Eigen::MatrixXd Rodriguez(const Eigen::VectorXd &omega, const float &theta){
         // Implements Rodriguez formula to calculate a rotation matrix from an axis and angle
         assert(omega.size() == 3 && "Input vector must have 3 components");
@@ -39,6 +55,11 @@ namespace rigid_body_motion {
         return R;
     }
 
+    /**
+     * @brief Calculates the logarithm of a rotation matrix.
+     * @param R A 3x3 rotation matrix.
+     * @return A 3-vector representing the rotation axis multiplied by the rotation angle.
+     */
     Eigen::VectorXd RotationLogarithm (const Eigen::MatrixXd &R){
         // Calculates the logarithm of a rotation matrix
         assert(R.rows() == 3 && R.cols() == 3 && "Input matrix must be 3x3");
@@ -56,7 +77,11 @@ namespace rigid_body_motion {
         return omega * theta;
     }
 
-
+    /**
+     * @brief Calculates the adjoint representation of a transformation matrix.
+     * @param T A 4x4 transformation matrix.
+     * @return A 6x6 adjoint matrix.
+     */
     Eigen::MatrixXd Adjoint(const Eigen::MatrixXd &T){
         // Calculates the adjoint representation of a transformation matrix
         assert(T.rows() == 4 && T.cols() == 4 && "Input matrix must be 4x4");
@@ -71,6 +96,12 @@ namespace rigid_body_motion {
 
     }
 
+    /**
+     * @brief Calculates the matrix exponential of a rigid body motion.
+     * @param S A 6-vector representing the twist.
+     * @param theta The angle of rotation in radians.
+     * @return A 4x4 transformation matrix.
+     */
     Eigen::MatrixXd Matrix_Exponential(const Eigen::VectorXd &S, const float &theta){
         // Calculates the matrix exponential of a rigid body motion
         assert(S.size() == 6 && "Input vector S must have 6 components");
@@ -91,6 +122,11 @@ namespace rigid_body_motion {
 
     }
 
+    /**
+     * @brief Calculates the matrix logarithm of a rigid body motion.
+     * @param T A 4x4 transformation matrix.
+     * @return A 6-vector representing the twist multiplied by the rotation angle.
+     */
     Eigen::MatrixXd Matrix_Logarithm(const Eigen::MatrixXd &T){
         // Calculates the matrix logarithm of a rigid body motion
 
@@ -124,6 +160,13 @@ namespace rigid_body_motion {
 
 namespace open_chain_kinematics {
 
+    /**
+     * @brief Forward kinematics in the space frame.
+     * @param M The home configuration (position and orientation) of the end-effector.
+     * @param S_list A list of screw axes in the space frame.
+     * @param theta_list A list of joint angles/positions.
+     * @return The transformation matrix representing the end-effector frame relative to the space frame.
+     */
     Eigen::MatrixXd FKin_Space(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::VectorXd theta_list) {
         // Forward kinematics in the space frame
         assert(M.rows() == 4 && M.cols() == 4 && "Input matrix M must be 4x4");
@@ -148,6 +191,13 @@ namespace open_chain_kinematics {
 
     }
 
+    /**
+     * @brief Forward kinematics in the body frame.
+     * @param M The home configuration (position and orientation) of the end-effector.
+     * @param B_list A list of screw axes in the body frame.
+     * @param theta_list A list of joint angles/positions.
+     * @return The transformation matrix representing the end-effector frame relative to the body frame.
+     */
     Eigen::MatrixXd FKin_Body(const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::VectorXd theta_list) {
         // Forward kinematics in the body frame
         assert(B_list.size() == theta_list.size() && "B_list and theta_list must have the same size");
@@ -168,6 +218,13 @@ namespace open_chain_kinematics {
  
     }
 
+    /**
+     * @brief Inverse kinematics in the space frame.
+     * @param M The home configuration (position and orientation) of the end-effector.
+     * @param S_list A list of screw axes in the space frame.
+     * @param T The desired end-effector configuration.
+     * @return A list of joint angles/positions that achieve the desired end-effector configuration.
+     */
     Eigen::VectorXd IKin_Space (const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> S_list, const Eigen::MatrixXd T) {
         // Inverse kinematics in the space frame
         assert(S_list.size() == T.cols() && "S_list and T must have the same number of columns");
@@ -209,6 +266,13 @@ namespace open_chain_kinematics {
 
     }
 
+    /**
+     * @brief Inverse kinematics in the body frame.
+     * @param M The home configuration (position and orientation) of the end-effector.
+     * @param B_list A list of screw axes in the body frame.
+     * @param T The desired end-effector configuration.
+     * @return A list of joint angles/positions that achieve the desired end-effector configuration.
+     */
     Eigen::VectorXd IKin_Body (const Eigen::MatrixXd M, const std::vector<Eigen::VectorXd> B_list, const Eigen::MatrixXd T) {
         // Inverse kinematics in the body frame
         /*
