@@ -23,12 +23,14 @@ add_executable(
 target_include_directories(
   my_tests PUBLIC
   ${EIGEN3_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/../src/include
 )
 
 target_link_libraries(
   my_tests
   gtest_main
   ME_495_Final_Project
+  open_chain_kinematics
 )
 
 include(GoogleTest)
