@@ -32,9 +32,8 @@ namespace rigid_body_motion {
     Eigen::MatrixXd Rodriguez(const Eigen::VectorXd &omega, const float &theta){
         // Implements Rodriguez formula to calculate a rotation matrix from an axis and angle
         assert(omega.size() == 3 && "Input vector must have 3 components");
-        Eigen::VectorXd omega_hat = omega.normalized();
 
-        Eigen::MatrixXd omega_so3 = VecToso3(omega_hat);
+        Eigen::MatrixXd omega_so3 = VecToso3(omega);
         Eigen::MatrixXd I = Eigen::MatrixXd::Identity(3, 3);
         Eigen::MatrixXd R = I + sin(theta) * omega_so3 + (1 - cos(theta)) * omega_so3 * omega_so3;
         return R;
@@ -81,8 +80,8 @@ namespace rigid_body_motion {
 
         Eigen::MatrixXd omega_so3 = VecToso3(omega);
         Eigen::MatrixXd I = Eigen::MatrixXd::Identity(3, 3);
-        Eigen::MatrixXd R = Rodriguez(omega_so3, theta);
-        Eigen::MatrixXd V = (I * theta + (1 - cos(theta)) * omega_so3 + (theta - sin(theta)) * omega_so3 * omega_so3) * v;
+        Eigen::MatrixXd R = Rodriguez(omega, theta);
+        Eigen::VectorXd V = (I * theta + (1 - cos(theta)) * omega_so3 + (theta - sin(theta)) * omega_so3 * omega_so3) * v;
 
         Eigen::MatrixXd exp_S_theta(4, 4);
         exp_S_theta << R, V,

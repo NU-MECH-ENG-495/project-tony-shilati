@@ -38,11 +38,9 @@ TEST(RigidBodyTest, Rodriguez_1){
     Eigen::MatrixXd R = rigid_body_motion::Rodriguez(omg, theta);
 
     // Evaluate the expected result
-    Eigen::VectorXd omg_hat(3);
-    omg_hat = omg.normalized();
-    Eigen::MatrixXd omg_hat_so3(3, 3);
-    omg_hat_so3 = rigid_body_motion::VecToso3(omg_hat);
-    Eigen::MatrixXd expected = Eigen::MatrixXd::Identity(3, 3) + omg_hat_so3 * sin(theta) + omg_hat_so3 * omg_hat_so3 * (1 - cos(theta));
+    Eigen::MatrixXd omg_so3(3, 3);
+    omg_so3 = rigid_body_motion::VecToso3(omg);
+    Eigen::MatrixXd expected = Eigen::MatrixXd::Identity(3, 3) + omg_so3 * sin(theta) + omg_so3 * omg_so3 * (1 - cos(theta));
 
     ASSERT_TRUE(R.isApprox(expected));
 }
@@ -105,8 +103,10 @@ TEST(RigidBodyTest, Matrix_Exponential){
     S << 1, 2, 3, 4, 5, 6;
     float theta = M_PI/2;
 
+
     // Evaluate the matrix exponential
     Eigen::MatrixXd exp_S_theta = rigid_body_motion::Matrix_Exponential(S, theta);
+
 
     // Construct the expected result
     Eigen::VectorXd omega(3); omega << 1, 2, 3;
@@ -114,10 +114,12 @@ TEST(RigidBodyTest, Matrix_Exponential){
     Eigen::MatrixXd omega_so3 = rigid_body_motion::VecToso3(omega);
     Eigen::MatrixXd I = Eigen::MatrixXd::Identity(3, 3);
     Eigen::MatrixXd R = rigid_body_motion::Rodriguez(omega, theta);
-    Eigen::MatrixXd V = (I * theta + (1 - cos(theta)) * omega_so3 + (theta - sin(theta)) * omega_so3 * omega_so3) * v;
+    Eigen::VectorXd V = (I * theta + (1 - cos(theta)) * omega_so3 + (theta - sin(theta)) * omega_so3 * omega_so3) * v;
     Eigen::MatrixXd expected(4, 4);
     expected << R, V,
                 0, 0, 0, 1;
+
+        
 
     ASSERT_TRUE(exp_S_theta.isApprox(expected));
 }
