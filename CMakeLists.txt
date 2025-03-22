@@ -67,7 +67,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # Enable testing
 enable_testing()
 
-# Add the tests subdirectory (if you have tests)
+# Add the tests subdirectory
 add_subdirectory(tests)
 
 # Find Doxygen
