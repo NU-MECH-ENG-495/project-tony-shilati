@@ -111,18 +111,25 @@ $(function(){initNavTree('namespacerigid__body__motion.html',''); initResizable(
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ac90d326c6e29c8dc722bb3fd0ce7c6a6" id="r_ac90d326c6e29c8dc722bb3fd0ce7c6a6"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac90d326c6e29c8dc722bb3fd0ce7c6a6">VecToso3</a> (const Eigen::VectorXd &amp;omega)</td></tr>
+<tr class="memdesc:ac90d326c6e29c8dc722bb3fd0ce7c6a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a 3-vector to its so3 representation.  <br /></td></tr>
 <tr class="separator:ac90d326c6e29c8dc722bb3fd0ce7c6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46f25dafc610eb49f75cbd5959b103a6" id="r_a46f25dafc610eb49f75cbd5959b103a6"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46f25dafc610eb49f75cbd5959b103a6">so3ToVec</a> (const Eigen::MatrixXd &amp;so3mat)</td></tr>
+<tr class="memdesc:a46f25dafc610eb49f75cbd5959b103a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an so3 matrix to a vector.  <br /></td></tr>
 <tr class="separator:a46f25dafc610eb49f75cbd5959b103a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b8b3d0ea146e3eba3469207beb672a2" id="r_a4b8b3d0ea146e3eba3469207beb672a2"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b8b3d0ea146e3eba3469207beb672a2">Rodriguez</a> (const Eigen::VectorXd &amp;omega, const float &amp;theta)</td></tr>
+<tr class="memdesc:a4b8b3d0ea146e3eba3469207beb672a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements Rodriguez formula to calculate a rotation matrix from an axis and angle.  <br /></td></tr>
 <tr class="separator:a4b8b3d0ea146e3eba3469207beb672a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a79547a1a3bf22338424b49935daef7" id="r_a8a79547a1a3bf22338424b49935daef7"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a79547a1a3bf22338424b49935daef7">RotationLogarithm</a> (const Eigen::MatrixXd &amp;R)</td></tr>
+<tr class="memdesc:a8a79547a1a3bf22338424b49935daef7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the logarithm of a rotation matrix.  <br /></td></tr>
 <tr class="separator:a8a79547a1a3bf22338424b49935daef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb0b388a8f86f778032744424c770189" id="r_acb0b388a8f86f778032744424c770189"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb0b388a8f86f778032744424c770189">Adjoint</a> (const Eigen::MatrixXd &amp;T)</td></tr>
+<tr class="memdesc:acb0b388a8f86f778032744424c770189"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the adjoint representation of a transformation matrix.  <br /></td></tr>
 <tr class="separator:acb0b388a8f86f778032744424c770189"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a2439203303e0049790e6c105645e6e" id="r_a5a2439203303e0049790e6c105645e6e"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a2439203303e0049790e6c105645e6e">Matrix_Exponential</a> (const Eigen::VectorXd &amp;S, const float &amp;theta)</td></tr>
+<tr class="memdesc:a5a2439203303e0049790e6c105645e6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the matrix exponential of a rigid body motion.  <br /></td></tr>
 <tr class="separator:a5a2439203303e0049790e6c105645e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65166c31cfc1c295b86f5301d0a2851d" id="r_a65166c31cfc1c295b86f5301d0a2851d"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65166c31cfc1c295b86f5301d0a2851d">Matrix_Logarithm</a> (const Eigen::MatrixXd &amp;T)</td></tr>
+<tr class="memdesc:a65166c31cfc1c295b86f5301d0a2851d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the matrix logarithm of a rigid body motion.  <br /></td></tr>
 <tr class="separator:a65166c31cfc1c295b86f5301d0a2851d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -140,6 +147,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculates the adjoint representation of a transformation matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">T</td><td>A 4x4 transformation matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A 6x6 adjoint matrix. </dd></dl>
 
 </div>
 </div>
@@ -162,6 +178,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Calculates the matrix exponential of a rigid body motion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">S</td><td>A 6-vector representing the twist. </td></tr>
+    <tr><td class="paramname">theta</td><td>The angle of rotation in radians. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A 4x4 transformation matrix. </dd></dl>
+
 </div>
 </div>
 <a id="a65166c31cfc1c295b86f5301d0a2851d" name="a65166c31cfc1c295b86f5301d0a2851d"></a>
@@ -178,6 +204,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculates the matrix logarithm of a rigid body motion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">T</td><td>A 4x4 transformation matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A 6-vector representing the twist multiplied by the rotation angle. </dd></dl>
 
 </div>
 </div>
@@ -200,6 +235,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Implements Rodriguez formula to calculate a rotation matrix from an axis and angle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">omega</td><td>A 3-vector representing the axis of rotation. </td></tr>
+    <tr><td class="paramname">theta</td><td>The angle of rotation in radians. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A 3x3 rotation matrix. </dd></dl>
+
 </div>
 </div>
 <a id="a8a79547a1a3bf22338424b49935daef7" name="a8a79547a1a3bf22338424b49935daef7"></a>
@@ -216,6 +261,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculates the logarithm of a rotation matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">R</td><td>A 3x3 rotation matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A 3-vector representing the rotation axis multiplied by the rotation angle. </dd></dl>
 
 </div>
 </div>
@@ -234,6 +288,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Converts an so3 matrix to a vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">so3mat</td><td>A 3x3 skew-symmetric matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A 3-vector. </dd></dl>
+
 </div>
 </div>
 <a id="ac90d326c6e29c8dc722bb3fd0ce7c6a6" name="ac90d326c6e29c8dc722bb3fd0ce7c6a6"></a>
@@ -250,6 +313,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Converts a 3-vector to its so3 representation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">omega</td><td>A 3-vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A 3x3 skew-symmetric matrix. </dd></dl>
 
 </div>
 </div>

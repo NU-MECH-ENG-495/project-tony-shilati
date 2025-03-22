@@ -185,8 +185,8 @@ namespace open_chain_kinematics {
 
         T = T * M;
 
-        // Return the Adjoint of the final transformation matrix
-        return rigid_body_motion::Adjoint(T);
+        // Return the final transformation matrix
+        return T;
 
 
     }
@@ -213,8 +213,8 @@ namespace open_chain_kinematics {
 
         T = M * T;
 
-        // Return the Adjoint of the final transformation matrix
-        return rigid_body_motion::Adjoint(T);
+        // Return the final transformation matrix
+        return T;
  
     }
 
