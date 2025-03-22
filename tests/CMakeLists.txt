@@ -17,6 +17,7 @@ add_executable(
   my_tests
   # Replace these with actual test files
   ${CMAKE_CURRENT_SOURCE_DIR}/unit/test_kinematics.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/unit/test_rigid_body_motion.cpp
   # ...add other test files here...
 )
 

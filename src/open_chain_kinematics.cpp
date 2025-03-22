@@ -62,8 +62,8 @@ namespace rigid_body_motion {
         // Calculates the adjoint representation of a transformation matrix
         assert(T.rows() == 4 && T.cols() == 4 && "Input matrix must be 4x4");
 
-        Eigen::MatrixXd R = T.block(0, 0, 2, 2);
-        Eigen::MatrixXd p = T.block(0, 3, 2, 3);
+        Eigen::MatrixXd R = T.block(0, 0, 3, 3);
+        Eigen::VectorXd p = T.block<3, 1>(0, 3);
         Eigen::MatrixXd p_so3 = VecToso3(p);
         Eigen::MatrixXd Ad_T(6, 6);
         Ad_T << R, Eigen::MatrixXd::Zero(3, 3),
